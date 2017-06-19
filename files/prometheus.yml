@@ -1,0 +1,7 @@
+scrape_configs:
+  - job_name: 'node'
+    scrape_interval: 5s
+    scrape_timeout: 3s
+    static_configs:
+      - targets: ['172.31.19.12:9100']
+

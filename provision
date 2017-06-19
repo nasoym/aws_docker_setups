@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+
+set -f
+set -o pipefail
+set -o errexit
+set -o nounset
+trap 'echo "$0: line ${LINENO}: exiting because of error";exit 1' ERR
+
+ec2_ip_script="$(dirname $(realpath $0) )/get_ec2_ip"
+
+function get_instance_ip_from_input () {
+  instance_ip="$( $ec2_ip_script $@ )"
+  if [[ -z "$instance_ip" ]];then
+    unset instance_ip
+  fi
+}
+
+function run_ssh_commands() {
+  local input="$(cat)"
+  echo "connecting to: $instance_ip"
+  ssh \
+    -q \
+    -i ${private_key_location} \
+    -o UserKnownHostsFile=/dev/null \
+    -o StrictHostKeyChecking=no \
+    -o ConnectTimeout=30 \
+    -o ConnectionAttempts=50 \
+    ec2-user@${instance_ip} <<< "$input"
+}
+
+while getopts "h" options; do case $options in
+  h) exit ;;
+esac; done; shift $((OPTIND - 1))
+
+[[ -r ~/.aws_tools_rc ]] && { source ~/.aws_tools_rc; }
+
+if [[ "$#" -eq 0 ]];then
+  exit
+
+elif [[ "$1" == "docker" ]];then shift
+  if [[ "$#" -gt 2 ]];then
+    first_command="$1"; shift
+    echo "$@" | tr ' ' '\n' | parallel "$0 $first_command {}"
+  elif [[ "$#" -eq 2 ]];then
+    shift
+    instance_ip="$( $ec2_ip_script $1 )"
+    run_ssh_commands <<EOF
+sudo yum install -y docker
+sudo service docker start
+sudo usermod -a -G docker ec2-user
+sudo pip install docker-compose
+EOF
+  fi
+
+elif [[ "$1" == "update" ]];then shift
+  get_instance_ip_from_input $@
+  run_ssh_commands <<EOF
+sudo yum update 
+EOF
+
+elif [[ "$1" == "tools" ]];then shift
+  get_instance_ip_from_input $@
+  run_ssh_commands <<EOF
+sudo yum install -y git jq
+EOF
+
+elif [[ "$1" == "monitor_daemons" ]];then 
+  if [[ "$#" -gt 2 ]];then
+    first_command="$1"; shift
+    echo "$@" | tr ' ' '\n' | parallel "$0 $first_command {}"
+  elif [[ "$#" -eq 2 ]];then
+    shift
+    instance_ip="$( $ec2_ip_script $1 )"
+    run_ssh_commands <<EOF
+docker rm -f node-exporter
+docker run \
+  --detach=true \
+  --publish=9100:9100 \
+  --name=node-exporter \
+  --volume="/proc:/host/proc:ro" \
+  --volume="/sys:/host/sys:ro" \
+  --volume="/:/rootfs:ro" \
+  --net="host" \
+  quay.io/prometheus/node-exporter:latest \
+  -collector.procfs /host/proc \
+  -collector.sysfs /host/sys \
+  -collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)($|/)"
+
+# -collectors.enabled "loadavg" \
+# -collectors.enabled "time,conntrack" \
+
+docker rm -f cadvisor
+sudo docker run \
+  --detach=true \
+  --publish=8080:8080 \
+  --name=cadvisor \
+  --volume=/:/rootfs:ro \
+  --volume=/var/run:/var/run:rw \
+  --volume=/sys:/sys:ro \
+  --volume=/var/lib/docker/:/var/lib/docker:ro \
+  google/cadvisor:latest
+
+docker ps -a
+
+EOF
+  fi
+
+elif [[ "$1" == "prometheus" ]];then shift
+  get_instance_ip_from_input $@
+  run_ssh_commands <<EOF
+docker rm -f ec2user_prometheus_1
+echo "$(cat files/prometheus.yml)" > prometheus.yml
+echo "$(cat files/prometheus-docker-compose.yml)" > prometheus-docker-compose.yml
+docker-compose -f prometheus-docker-compose.yml up -d
+EOF
+
+elif [[ "$1" == "grafana" ]];then shift
+  get_instance_ip_from_input $@
+  run_ssh_commands <<EOF
+docker rm -f ec2user_grafana_1
+echo "$(cat files/grafana-docker-compose.yml)" > grafana-docker-compose.yml
+docker-compose -f grafana-docker-compose.yml up -d
+docker ps -a
+EOF
+
+elif [[ "$1" == "test" ]];then shift
+  get_instance_ip_from_input $@
+  run_ssh_commands <<EOF
+echo test
+EOF
+
+fi
+
