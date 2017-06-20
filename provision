@@ -98,8 +98,7 @@ EOF
 
 elif [[ "$1" == "test" ]];then shift
   run_ssh_commands $@ <<EOF
-echo test
-echo \$(hostname)
+echo "testing \$(hostname)"
 EOF
 
 else
