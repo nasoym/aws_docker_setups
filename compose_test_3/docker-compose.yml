@@ -1,0 +1,11 @@
+version: '2'
+services:
+  service1:
+    image: nasoym/bss_docker
+    volumes_from:
+      - service2
+  service2:
+    image: nasoym/bss_docker
+    command: true
+
+

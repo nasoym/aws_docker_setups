@@ -1,0 +1,29 @@
+version: '3'
+services:
+  service1:
+    image: nasoym/bss_docker
+    ports:
+      - "8080"
+    command: ["true"]    
+  service2:
+    image: nasoym/bss_docker
+    restart: always
+    ports:
+      - "8080"
+    volumes:
+      - ./foo:/bss/handlers/foo
+  service3:
+    image: nasoym/bss_docker
+    restart: always
+    ports:
+      - "8080"
+    volumes:
+      - vol1:/bss/handlers/
+
+volumes:
+  vol1:
+    # driver: local
+    # driver_opts:
+    #   device: /home/ec2-user/compose_test_2 
+
+

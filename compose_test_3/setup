@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+provision="$(dirname $(realpath $0))/../provision"
+project_name="$(basename $(dirname $(realpath $0)))"
+
+
+ec2 list running \
+  | jq -e "(map(select(.Name==\"${project_name}_host1\")) | length) == 1" >/dev/null || {
+  echo "${project_name}_host1" | ec2 create  ;
+}
+
+  ec2 ssh ${project_name}_host1 <<EOF
+sudo yum install -y docker
+sudo service docker start
+sudo usermod -a -G docker ec2-user
+sudo pip install docker-compose
+EOF
+
+  ec2 ssh ${project_name}_host1 <<EOF
+  mkdir -p ${project_name}
+  cd ${project_name}
+  echo "$(cat docker-compose.yml)" > docker-compose.yml
+  docker-compose up -d
+EOF
+
