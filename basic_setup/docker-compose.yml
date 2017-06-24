@@ -1,0 +1,53 @@
+version: '3'
+services:
+  nginx:
+    image: nginx
+    restart: always
+    ports:
+      - 9080:80
+  grafana:
+    image: grafana/grafana
+    restart: always
+    ports: 
+      - 3000:3000
+    volumes:
+      - ./grafana.ini:/var/lib/grafana/grafana.ini
+      - ./grafana_dashboard_01.json:/var/lib/grafana/dashboards/grafana_dashboard_01.json
+    command: "--config /var/lib/grafana/grafana.ini"
+    environment:
+      - GF_DASHBOARDS_JSON_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_INSTALL_PLUGINS=grafana-simple-json-datasource
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,mtanda-heatmap-epoch-panel,mtanda-histogram-panel,grafana-piechart-panel,jdbranham-diagram-panel
+  prometheus:
+    image: prom/prometheus
+    restart: always
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - 9090:9090
+    external_links:
+     - cadvisor
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest 
+    restart: always
+    # network_mode: host
+    ports:
+      - 9100:9100
+    volumes:
+      - "/proc:/host/proc:ro"
+      - "/sys:/host/sys:ro"
+      - "/:/rootfs:ro"
+    command: "-collector.procfs /host/proc -collector.sysfs /host/sys"
+    #command: ["-collector.procfs /host/proc","-collector.sysfs /host/sys", "-collector.filesystem.ignored-mount-points \"^/(sys|proc|dev|host|etc)($$|/)\""]
+  # cadvisor:
+  #   image: google/cadvisor:latest
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+  #   volumes:
+  #     - "/:/rootfs:ro"
+  #     - "/var/run:/var/run:rw"
+  #     - "/sys:/sys:ro"
+  #     - "/var/lib/docker/:/var/lib/docker:ro"
+

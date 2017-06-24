@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+project_name="$(basename $(dirname $(realpath $0)))"
+
+ec2 list running \
+  | jq -e "(map(select(.Name==\"${project_name}_monitoring\")) | length) == 1" >/dev/null || {
+  echo "${project_name}_monitoring" | ec2 create  ;
+}
+
+  ec2 ssh ${project_name}_monitoring <<EOF
+  cd ${project_name}
+
+  docker rm -f cadvisor
+  sudo docker run \
+    --detach=true \
+    --publish=8080:8080 \
+    --name=cadvisor \
+    --volume=/:/rootfs:ro \
+    --volume=/var/run:/var/run:rw \
+    --volume=/sys:/sys:ro \
+    --volume=/var/lib/docker/:/var/lib/docker:ro \
+    google/cadvisor:v0.26.1
+
+EOF
+
+
