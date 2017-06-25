@@ -30,10 +30,12 @@ elif [[ "$1" == "ssh" ]];then shift
 
 elif [[ "$1" == "docker" ]];then shift
   run_ssh_commands $@ <<EOF
-sudo yum install -y docker
-sudo service docker start
-sudo usermod -a -G docker ec2-user
-sudo pip install docker-compose
+if ! hash docker; then 
+  sudo yum install -y docker
+  sudo service docker start
+  sudo usermod -a -G docker ec2-user
+  sudo pip install docker-compose
+fi
 EOF
 
 elif [[ "$1" == "update" ]];then shift
@@ -43,62 +45,7 @@ EOF
 
 elif [[ "$1" == "tools" ]];then shift
   run_ssh_commands $@ <<EOF
-sudo yum install -y git jq
-EOF
-
-elif [[ "$1" == "monitor_daemons" ]];then 
-  run_ssh_commands $@ <<EOF
-docker rm -f node-exporter
-docker run \
-  --detach=true \
-  --publish=9100:9100 \
-  --name=node-exporter \
-  --volume="/proc:/host/proc:ro" \
-  --volume="/sys:/host/sys:ro" \
-  --volume="/:/rootfs:ro" \
-  --net="host" \
-  quay.io/prometheus/node-exporter:latest \
-  -collector.procfs /host/proc \
-  -collector.sysfs /host/sys \
-  -collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)($|/)"
-
-# -collectors.enabled "loadavg" \
-# -collectors.enabled "time,conntrack" \
-
-docker rm -f cadvisor
-sudo docker run \
-  --detach=true \
-  --publish=8080:8080 \
-  --name=cadvisor \
-  --volume=/:/rootfs:ro \
-  --volume=/var/run:/var/run:rw \
-  --volume=/sys:/sys:ro \
-  --volume=/var/lib/docker/:/var/lib/docker:ro \
-  google/cadvisor:latest
-
-docker ps -a
-
-EOF
-
-elif [[ "$1" == "prometheus" ]];then shift
-  run_ssh_commands $@ <<EOF
-docker rm -f ec2user_prometheus_1
-echo "$(cat files/prometheus.yml)" > prometheus.yml
-echo "$(cat files/prometheus-docker-compose.yml)" > prometheus-docker-compose.yml
-docker-compose -f prometheus-docker-compose.yml up -d
-EOF
-
-elif [[ "$1" == "grafana" ]];then shift
-  run_ssh_commands $@ <<EOF
-docker rm -f ec2user_grafana_1
-echo "$(cat files/grafana-docker-compose.yml)" > grafana-docker-compose.yml
-docker-compose -f grafana-docker-compose.yml up -d
-docker ps -a
-EOF
-
-elif [[ "$1" == "test" ]];then shift
-  run_ssh_commands $@ <<EOF
-echo "testing \$(hostname)"
+sudo yum install -y git jq httpd-tools
 EOF
 
 else
