@@ -39,10 +39,14 @@ services:
       - "/sys:/host/sys:ro"
       - "/:/rootfs:ro"
     command: "-collector.procfs /host/proc -collector.sysfs /host/sys"
+# -collectors.enabled "loadavg" \
+# -collectors.enabled "time,conntrack" \
     #command: ["-collector.procfs /host/proc","-collector.sysfs /host/sys", "-collector.filesystem.ignored-mount-points \"^/(sys|proc|dev|host|etc)($$|/)\""]
   # cadvisor:
   #   image: google/cadvisor:latest
-  #   restart: always
+  #   # restart: always
+  #   restart: unless-stopped
+  #   privileged: true
   #   ports:
   #     - 8080:8080
   #   volumes:
@@ -50,4 +54,4 @@ services:
   #     - "/var/run:/var/run:rw"
   #     - "/sys:/sys:ro"
   #     - "/var/lib/docker/:/var/lib/docker:ro"
-
+  #     - "/cgroup:/cgroup:ro"

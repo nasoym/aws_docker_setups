@@ -17,6 +17,8 @@ ec2 list running \
     --detach=true \
     --publish=8080:8080 \
     --name=cadvisor \
+    --privileged=true \
+    --volume=/cgroup:/cgroup:ro \
     --volume=/:/rootfs:ro \
     --volume=/var/run:/var/run:rw \
     --volume=/sys:/sys:ro \
