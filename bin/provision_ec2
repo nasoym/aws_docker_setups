@@ -6,6 +6,12 @@ set -o errexit
 set -o nounset
 trap 'echo "$0: line ${LINENO}: exiting because of error";exit 1' ERR
 
+: ${trace:=0}
+if [[ "$trace" -eq 1 ]];then
+  PS4='${LINENO}: '
+  set -x
+fi
+
 if [[ "$#" -eq 0 ]];then
   exit
 
@@ -19,40 +25,41 @@ if ! hash docker; then
 fi
 EOF
 
-elif [[ "$1" == "cadivsor" ]];then shift
+elif [[ "$1" == "cadvisor" ]];then shift
   ec2 ssh $@ <<EOF
   docker rm -f cadvisor
   docker run \
-    --name=cadvisor \
-    --detach=true \
-    --publish=8080:8080 \
-    --privileged=true \
-    --volume=/:/rootfs:ro \
-    --volume=/var/run:/var/run:rw \
-    --volume=/sys:/sys:ro \
-    --volume=/var/lib/docker/:/var/lib/docker:ro \
-    --volume=/cgroup:/cgroup:ro \
+    --name cadvisor \
+    --detach \
+    --publish 8080:8080 \
+    --restart unless-stopped \
+    --privileged \
+    --volume /:/rootfs:ro \
+    --volume /var/run:/var/run:rw \
+    --volume /sys:/sys:ro \
+    --volume /var/lib/docker/:/var/lib/docker:ro \
+    --volume /cgroup:/cgroup:ro \
     google/cadvisor:v0.26.1
 EOF
 
 elif [[ "$1" == "nodeexporter" ]];then shift
   ec2 ssh $@ <<EOF
-
-    # restart: always
+  docker rm -f node_exporter
   docker run \
     --name node_exporter \
-    --detach=true \
-    --publish=9100:9100 \
-    --volume=/proc:/host/proc:ro \
-    --volume=/sys:/host/sys:ro \
-    --volume=/:/rootfs:ro \
+    --detach \
+    --publish 9100:9100 \
+    --restart unless-stopped \
+    --volume /proc:/host/proc:ro \
+    --volume /sys:/host/sys:ro \
+    --volume /:/rootfs:ro \
     quay.io/prometheus/node-exporter:latest \
     -collector.procfs /host/proc \
     -collector.sysfs /host/sys \
     -collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)(\$|/)"
 
-    # -collectors.enabled "loadavg" \
-    # -collectors.enabled "time,conntrack" \
+    # -collectors.enabled "loadavg"
+    # -collectors.enabled "time,conntrack" 
 EOF
 
 elif [[ "$1" == "update" ]];then shift

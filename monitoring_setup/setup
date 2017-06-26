@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+project_name="$(basename $(dirname $(realpath $0)))"
+
+ec2 ssh $@ <<EOF
+  mkdir -p ${project_name}
+EOF
+
+ec2 scp $@ ${project_name} prometheus.yml
+ec2 scp $@ ${project_name} docker-compose.yml
+
+ec2 ssh $@ <<EOF
+  cd ${project_name}
+  docker-compose up -d --remove-orphans
+EOF
+

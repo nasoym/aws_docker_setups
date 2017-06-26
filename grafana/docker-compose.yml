@@ -1,0 +1,23 @@
+version: '3'
+services:
+  grafana:
+    image: grafana/grafana
+    restart: unless-stopped
+    ports: 
+      - 3000:3000
+    # volumes:
+    #   - ./grafana.ini:/var/lib/grafana/grafana.ini
+    #   - ./grafana_dashboard_01.json:/var/lib/grafana/dashboards/grafana_dashboard_01.json
+    # command: "--config /var/lib/grafana/grafana.ini"
+    environment:
+      - GF_DASHBOARDS_JSON_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,mtanda-heatmap-epoch-panel,mtanda-histogram-panel,grafana-piechart-panel,jdbranham-diagram-panel
+volumes:
+  grafana:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "${PWD}/mount"
+
