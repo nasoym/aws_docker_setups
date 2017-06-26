@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-echo "foo $(date +%FT%T) ----- $(pwd) "
-echo "blalblalala"
-
