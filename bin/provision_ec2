@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+set -f
+set -o pipefail
+set -o errexit
+set -o nounset
+trap 'echo "$0: line ${LINENO}: exiting because of error";exit 1' ERR
+
+if [[ "$#" -eq 0 ]];then
+  exit
+
+elif [[ "$1" == "docker" ]];then shift
+  ec2 ssh $@ <<EOF
+if ! hash docker; then 
+  sudo yum install -y docker
+  sudo service docker start
+  sudo usermod -a -G docker ec2-user
+  sudo pip install docker-compose
+fi
+EOF
+
+elif [[ "$1" == "cadivsor" ]];then shift
+  ec2 ssh $@ <<EOF
+  docker rm -f cadvisor
+  docker run \
+    --name=cadvisor \
+    --detach=true \
+    --publish=8080:8080 \
+    --privileged=true \
+    --volume=/:/rootfs:ro \
+    --volume=/var/run:/var/run:rw \
+    --volume=/sys:/sys:ro \
+    --volume=/var/lib/docker/:/var/lib/docker:ro \
+    --volume=/cgroup:/cgroup:ro \
+    google/cadvisor:v0.26.1
+EOF
+
+elif [[ "$1" == "nodeexporter" ]];then shift
+  ec2 ssh $@ <<EOF
+
+    # restart: always
+  docker run \
+    --name node_exporter \
+    --detach=true \
+    --publish=9100:9100 \
+    --volume=/proc:/host/proc:ro \
+    --volume=/sys:/host/sys:ro \
+    --volume=/:/rootfs:ro \
+    quay.io/prometheus/node-exporter:latest \
+    -collector.procfs /host/proc \
+    -collector.sysfs /host/sys \
+    -collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)(\$|/)"
+
+    # -collectors.enabled "loadavg" \
+    # -collectors.enabled "time,conntrack" \
+EOF
+
+elif [[ "$1" == "update" ]];then shift
+  ec2 ssh $@ <<EOF
+sudo yum update 
+EOF
+
+elif [[ "$1" == "tools" ]];then shift
+  ec2 ssh $@ <<EOF
+sudo yum install -y git jq httpd-tools
+EOF
+
+else
+  echo "unkown command: $@" >&2
+  exit 1
+
+fi
+
