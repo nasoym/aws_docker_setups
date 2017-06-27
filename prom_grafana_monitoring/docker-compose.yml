@@ -1,0 +1,50 @@
+version: '3'
+services:
+
+  grafana:
+    image: grafana/grafana:4.3.2
+    restart: unless-stopped
+    ports: 
+      - 3000:3000
+    environment:
+      - GF_DASHBOARDS_JSON_ENABLED=true
+
+  prometheus:
+    image: prom/prometheus:v1.7.1
+    restart: unless-stopped
+    volumes:
+      - prometheus:/prometheus_config:ro
+    ports:
+      - 9090:9090
+    command: -config.file=/prometheus_config/prometheus.yml
+
+  cadvisor:
+    image: google/cadvisor:v0.26.1
+    restart: unless-stopped
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /cgroup:/cgroup:ro
+    ports:
+      - 8080:8080
+
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    ports:
+      - 9100:9100
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command: -collector.procfs /host/proc -collector.sysfs /host/sys
+
+volumes:
+  prometheus:
+    driver_opts:
+      o: bind
+      device: "${PWD}"
+

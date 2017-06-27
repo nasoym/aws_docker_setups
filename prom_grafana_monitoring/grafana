@@ -1,0 +1,66 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+: ${GRAFANA_SERVER:="http://localhost:3000"}
+: ${GRAFANA_USER:="admin"}
+: ${GRAFANA_PASSWORD:="admin"}
+
+
+if [[ "$#" -eq 0 ]];then
+  :
+
+elif [[ "$1" == "add_prometheus" ]];then shift
+  curl \
+    -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    --user "${GRAFANA_USER}:${GRAFANA_PASSWORD}" \
+    --data-binary "{\
+      \"name\": \"prometheus\",\
+      \"type\": \"prometheus\",\
+      \"access\": \"proxy\",\
+      \"url\": \"http://prometheus:9090\",\
+      \"basicAuth\": false\
+      }" \
+    "${GRAFANA_SERVER}/api/datasources"
+
+elif [[ "$1" == "list_dashboards" ]];then shift
+  curl \
+    -s \
+    -X GET \
+    --user "${GRAFANA_USER}:${GRAFANA_PASSWORD}" \
+    "${GRAFANA_SERVER}/api/search" \
+  | jq -r 'map(.uri)[]'
+
+elif [[ "$1" == "get_dashboard" ]];then shift
+  if [[ -z "$1" ]];then
+    echo "dashboard uri must be provided" >&2
+    exit 1
+  fi
+  curl \
+    -s \
+    -X GET \
+    --user "${GRAFANA_USER}:${GRAFANA_PASSWORD}" \
+    "${GRAFANA_SERVER}/api/dashboards/$1" \
+  | jq '.dashboard'
+
+elif [[ "$1" == "add_dashboard" ]];then shift
+  if [[ ! -p /dev/stdin ]]; then
+    echo "dashboard json content must be piped" >&2
+    exit 1
+  fi
+  jq '{dashboard:.,overwrite:true}|.dashboard.id=null' \
+  | curl \
+    -s \
+    -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    --user "${GRAFANA_USER}:${GRAFANA_PASSWORD}" \
+    --data-binary "@-" \
+    "${GRAFANA_SERVER}/api/dashboards/db"
+
+else
+  echo "unknown command: $@" >&2
+  exit 1
+
+fi
+

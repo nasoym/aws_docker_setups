@@ -1,0 +1,17 @@
+
+- targets: ['node_exporter:9100']
+  labels:
+    job: node_exporter
+    stage: monitoring
+
+- targets: ['cadvisor:8080']
+  labels:
+    job: cadvisor
+    stage: monitoring
+
+- targets: ['localhost:9090']
+  labels:
+    job: prometheus
+    stage: monitoring
+
+

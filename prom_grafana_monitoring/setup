@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+project_name="$(basename $(dirname $(realpath $0)))"
+
+if [[ -z "$@" ]]; then 
+  echo "instance[s] name must be provided" >&2
+  exit 1
+fi
+
+ec2 ssh $@ <<EOF
+  mkdir -p ${project_name}
+EOF
+
+ec2 scp $@ ${project_name} targets.yml
+ec2 scp $@ ${project_name} prometheus.yml
+ec2 scp $@ ${project_name} docker-compose.yml
+
+ec2 ssh $@ <<EOF
+  cd ${project_name}
+  docker-compose up -d --remove-orphans
+EOF
+
