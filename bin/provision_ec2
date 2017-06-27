@@ -17,7 +17,7 @@ if [[ "$#" -eq 0 ]];then
 
 elif [[ "$1" == "docker" ]];then shift
   ec2 ssh $@ <<EOF
-if ! hash docker; then 
+if ! hash docker &>/dev/null; then 
   sudo yum install -y docker
   sudo service docker start
   sudo usermod -a -G docker ec2-user
