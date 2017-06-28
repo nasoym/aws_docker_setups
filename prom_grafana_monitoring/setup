@@ -11,11 +11,14 @@ fi
 
 ec2 ssh $@ <<EOF
   mkdir -p ${project_name}
+  mkdir -p ${project_name}/scripted_dashboards
 EOF
 
 ec2 scp $@ ${project_name} targets.yml
 ec2 scp $@ ${project_name} prometheus.yml
 ec2 scp $@ ${project_name} docker-compose.yml
+ec2 scp $@ ${project_name}/scripted_dashboards/ scripted_dashboards/scripted.js
+ec2 scp $@ ${project_name}/scripted_dashboards/ scripted_dashboards/scripted_async.js
 
 ec2 ssh $@ <<EOF
   cd ${project_name}

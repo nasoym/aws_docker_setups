@@ -6,8 +6,12 @@ services:
     restart: unless-stopped
     ports: 
       - 3000:3000
+    volumes:
+      - grafana_scripted_dashboards:/usr/share/grafana/public/dashboards/:ro
     environment:
       - GF_DASHBOARDS_JSON_ENABLED=true
+        # /usr/share/grafana/public/dashboards/
+# default.json  home.json  scripted.js  scripted_async.js  scripted_templated.js  template_vars.json
 
   prometheus:
     image: prom/prometheus:v1.7.1
@@ -47,4 +51,8 @@ volumes:
     driver_opts:
       o: bind
       device: "${PWD}"
+  grafana_scripted_dashboards:
+    driver_opts:
+      o: bind
+      device: "${PWD}/scripted_dashboards"
 

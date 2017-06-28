@@ -10,18 +10,16 @@ set -eufo pipefail
 if [[ "$#" -eq 0 ]];then
   :
 
-elif [[ "$1" == "add_prometheus" ]];then shift
+elif [[ "$1" == "add_datasource" ]];then shift
+  if [[ ! -p /dev/stdin ]]; then
+    echo "datasource json content must be piped" >&2
+    exit 1
+  fi
   curl \
     -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
     --user "${GRAFANA_USER}:${GRAFANA_PASSWORD}" \
-    --data-binary "{\
-      \"name\": \"prometheus\",\
-      \"type\": \"prometheus\",\
-      \"access\": \"proxy\",\
-      \"url\": \"http://prometheus:9090\",\
-      \"basicAuth\": false\
-      }" \
+    --data-binary "@-" \
     "${GRAFANA_SERVER}/api/datasources"
 
 elif [[ "$1" == "list_dashboards" ]];then shift
@@ -60,7 +58,12 @@ elif [[ "$1" == "add_dashboard" ]];then shift
 
 elif [[ "$1" == "get_datasources" ]];then shift
   : ${TARGET_FOLDER:="data_sources"}
-  # curl -s -X GET --user ${GRAFANA_USER}:${GRAFANA_PASSWORD} "${GRAFANA_SERVER}/api/datasources" | jq -c '.[]' | while read LINE; do 
+  curl -s \
+    -X GET \
+    --user ${GRAFANA_USER}:${GRAFANA_PASSWORD} \
+    "${GRAFANA_SERVER}/api/datasources" \
+    | jq -c '.[]' 
+  # | while read LINE; do 
   #   echo "$LINE"  | jq '.' > ${TARGET_FOLDER}/$(echo "$LINE" | jq '.id').json
   # done
 
