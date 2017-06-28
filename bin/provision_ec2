@@ -21,7 +21,7 @@ if ! hash docker &>/dev/null; then
   sudo yum install -y docker
   sudo service docker start
   sudo usermod -a -G docker ec2-user
-  sudo pip install docker-compose
+  sudo pip install docker-compose==1.12.0
 fi
 EOF
 
@@ -64,7 +64,7 @@ EOF
 
 elif [[ "$1" == "update" ]];then shift
   ec2 ssh $@ <<EOF
-sudo yum update 
+sudo yum update -y
 EOF
 
 elif [[ "$1" == "tools" ]];then shift
