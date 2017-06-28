@@ -58,6 +58,12 @@ elif [[ "$1" == "add_dashboard" ]];then shift
     --data-binary "@-" \
     "${GRAFANA_SERVER}/api/dashboards/db"
 
+elif [[ "$1" == "get_datasources" ]];then shift
+  : ${TARGET_FOLDER:="data_sources"}
+  # curl -s -X GET --user ${GRAFANA_USER}:${GRAFANA_PASSWORD} "${GRAFANA_SERVER}/api/datasources" | jq -c '.[]' | while read LINE; do 
+  #   echo "$LINE"  | jq '.' > ${TARGET_FOLDER}/$(echo "$LINE" | jq '.id').json
+  # done
+
 else
   echo "unknown command: $@" >&2
   exit 1
