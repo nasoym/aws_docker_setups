@@ -110,7 +110,7 @@
               "step": 2
             },
             {
-              "expr": "idelta(one[5m]) + irate(one[5m])",
+              "expr": "idelta(one[5m])",
               "format": "time_series",
               "hide": true,
               "intervalFactor": 2,
@@ -128,7 +128,7 @@
               "step": 2
             },
             {
-              "expr": "rate(one[20s])",
+              "expr": "rate(one[20s]) * irate(one[5m])",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
