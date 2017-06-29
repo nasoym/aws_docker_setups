@@ -45,12 +45,12 @@
               "color": "#009900"
             },
             {
-              "alias": "irate",
-              "color": "#7777BB"
-            },
-            {
               "alias": "rate",
               "color": "#990000"
+            },
+            {
+              "alias": "irate",
+              "color": "#7777BB"
             }
           ],
           "spaceLength": 10,
@@ -67,18 +67,18 @@
               "step": 2
             },
             {
-              "expr": "irate(one[1m])",
+              "expr": "predict_linear(one[1m])",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "irate",
+              "legendFormat": "rate",
               "refId": "B",
               "step": 2
             },
             {
-              "expr": "rate(one[1m])",
+              "expr": "irate(one[1m])",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "rate",
+              "legendFormat": "irate",
               "refId": "C",
               "step": 2
             }
