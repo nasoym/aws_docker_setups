@@ -204,7 +204,7 @@
       "repeat": null,
       "repeatIteration": null,
       "repeatRowId": null,
-      "showTitle": false,
+      "showTitle": true,
       "title": "foo",
       "titleSize": "h6"
     }
