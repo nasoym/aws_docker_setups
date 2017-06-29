@@ -12,13 +12,13 @@ fi
 ec2 ssh $@ <<EOF
   mkdir -p ${project_name}
   mkdir -p ${project_name}/scripted_dashboards
+  sudo chown -R ec2-user:ec2-user ${project_name}/scripted_dashboards
 EOF
 
 ec2 scp $@ ${project_name} targets.yml
 ec2 scp $@ ${project_name} prometheus.yml
 ec2 scp $@ ${project_name} docker-compose.yml
-ec2 scp $@ ${project_name}/scripted_dashboards/ scripted_dashboards/scripted.js
-ec2 scp $@ ${project_name}/scripted_dashboards/ scripted_dashboards/scripted_async.js
+ec2 scp $@ ${project_name} scripted_dashboards
 
 ec2 ssh $@ <<EOF
   cd ${project_name}
