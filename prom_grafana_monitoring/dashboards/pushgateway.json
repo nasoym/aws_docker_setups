@@ -53,6 +53,10 @@
               "color": "#998800"
             },
             {
+              "alias": "idelta",
+              "color": "#990099"
+            },
+            {
               "alias": "irate",
               "color": "#7777BB"
             }
@@ -80,7 +84,7 @@
               "step": 2
             },
             {
-              "expr": "irate(one[10m])",
+              "expr": "irate(one[1m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "irate",
@@ -94,6 +98,15 @@
               "intervalFactor": 2,
               "legendFormat": "increase",
               "refId": "D",
+              "step": 2
+            },
+            {
+              "expr": "idelta(one[10s])",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "idelta",
+              "refId": "E",
               "step": 2
             }
           ],
