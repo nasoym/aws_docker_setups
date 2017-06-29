@@ -6,7 +6,6 @@ set -eufo pipefail
 : ${GRAFANA_USER:="admin"}
 : ${GRAFANA_PASSWORD:="admin"}
 
-
 if [[ "$#" -eq 0 ]];then
   :
 
@@ -16,6 +15,7 @@ elif [[ "$1" == "add_datasource" ]];then shift
     exit 1
   fi
   curl \
+    -s \
     -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
     --user "${GRAFANA_USER}:${GRAFANA_PASSWORD}" \
@@ -40,7 +40,7 @@ elif [[ "$1" == "get_dashboard" ]];then shift
     -X GET \
     --user "${GRAFANA_USER}:${GRAFANA_PASSWORD}" \
     "${GRAFANA_SERVER}/api/dashboards/$1" \
-  | jq '.dashboard'
+  | jq -c '.dashboard'
 
 elif [[ "$1" == "add_dashboard" ]];then shift
   if [[ ! -p /dev/stdin ]]; then
@@ -57,15 +57,16 @@ elif [[ "$1" == "add_dashboard" ]];then shift
     "${GRAFANA_SERVER}/api/dashboards/db"
 
 elif [[ "$1" == "get_datasources" ]];then shift
-  : ${TARGET_FOLDER:="data_sources"}
-  curl -s \
+  : ${TARGET_FOLDER:="datasources"}
+  curl \
+    -s \
     -X GET \
     --user ${GRAFANA_USER}:${GRAFANA_PASSWORD} \
     "${GRAFANA_SERVER}/api/datasources" \
-    | jq -c '.[]' 
-  # | while read LINE; do 
-  #   echo "$LINE"  | jq '.' > ${TARGET_FOLDER}/$(echo "$LINE" | jq '.id').json
-  # done
+    | jq -c '.[]' \
+    | while read LINE; do 
+      echo "$LINE"  | jq '.' > ${TARGET_FOLDER}/$(echo "$LINE" | jq '.id').json
+    done
 
 else
   echo "unknown command: $@" >&2
