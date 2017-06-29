@@ -128,7 +128,7 @@
               "step": 2
             },
             {
-              "expr": "holt_winters(one[5m],0.1,0.9)",
+              "expr": "avg_over_time(one[1m])",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
