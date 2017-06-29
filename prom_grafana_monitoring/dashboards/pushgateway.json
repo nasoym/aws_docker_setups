@@ -6,7 +6,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "hideControls": false,
-  "id": 1,
+  "id": 2,
   "links": [],
   "refresh": "5s",
   "rows": [
@@ -39,7 +39,7 @@
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 12,
           "stack": false,
@@ -73,9 +73,9 @@
           },
           "yaxes": [
             {
-              "format": "s",
+              "format": "none",
               "label": null,
-              "logBase": 10,
+              "logBase": 1,
               "max": null,
               "min": "0",
               "show": true
