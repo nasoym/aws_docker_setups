@@ -63,6 +63,10 @@
             {
               "alias": "irate",
               "color": "#7777BB"
+            },
+            {
+              "alias": "foo",
+              "color": "#00eeee"
             }
           ],
           "spaceLength": 10,
@@ -108,7 +112,7 @@
             {
               "expr": "idelta(one[5m])",
               "format": "time_series",
-              "hide": false,
+              "hide": true,
               "intervalFactor": 2,
               "legendFormat": "idelta",
               "refId": "E",
@@ -117,10 +121,19 @@
             {
               "expr": "delta(one[1m])",
               "format": "time_series",
-              "hide": false,
+              "hide": true,
               "intervalFactor": 2,
               "legendFormat": "delta",
               "refId": "F",
+              "step": 2
+            },
+            {
+              "expr": "changes(one[1m])",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "foo",
+              "refId": "G",
               "step": 2
             }
           ],
