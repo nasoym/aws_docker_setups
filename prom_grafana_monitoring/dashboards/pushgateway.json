@@ -47,7 +47,7 @@
             },
             {
               "alias": "irate",
-              "color": "#000099"
+              "color": "#7777BB"
             },
             {
               "alias": "rate",
@@ -166,5 +166,5 @@
   },
   "timezone": "browser",
   "title": "Pushgateway",
-  "version": 2
+  "version": 1
 }
