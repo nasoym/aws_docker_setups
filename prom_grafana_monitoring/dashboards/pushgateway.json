@@ -128,7 +128,7 @@
               "step": 2
             },
             {
-              "expr": "changes(one[1m])",
+              "expr": "deriv(one[1m])",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
