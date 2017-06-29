@@ -20,6 +20,12 @@ services:
       - 9090:9090
     command: -config.file=/prometheus_config/prometheus.yml
 
+  pushgateway:
+    image: prom/pushgateway:v0.4.0
+    restart: unless-stopped
+    ports:
+      - 9091:9091
+
   cadvisor:
     image: google/cadvisor:v0.26.1
     restart: unless-stopped
