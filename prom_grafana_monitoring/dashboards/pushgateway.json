@@ -71,7 +71,7 @@
               "step": 2
             },
             {
-              "expr": "predict_linear(one[1m],60)",
+              "expr": "predict_linear(one[10s],10)",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "rate",
@@ -79,7 +79,7 @@
               "step": 2
             },
             {
-              "expr": "irate(one[1m])",
+              "expr": "irate(one[10s])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "irate",

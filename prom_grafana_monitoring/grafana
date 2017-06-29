@@ -47,7 +47,7 @@ elif [[ "$1" == "add_dashboard" ]];then shift
     echo "dashboard json content must be piped" >&2
     exit 1
   fi
-  jq '{dashboard:.,overwrite:true}|.dashboard.id=null' \
+  jq '{dashboard:.,overwrite:true}|.dashboard.id=null|.dashboard.version=null' \
   | curl \
     -s \
     -X POST \
