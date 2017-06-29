@@ -65,6 +65,10 @@
               "color": "#000044"
             },
             {
+              "alias": "avg",
+              "color": "#004444"
+            },
+            {
               "alias": "value",
               "color": "#00ff00",
               "linewidth": 2
@@ -135,6 +139,15 @@
               "intervalFactor": 2,
               "legendFormat": "rate",
               "refId": "G",
+              "step": 2
+            },
+            {
+              "expr": "avg_over_time(one[1m])",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "avg",
+              "refId": "H",
               "step": 2
             }
           ],
