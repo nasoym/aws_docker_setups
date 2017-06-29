@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+: ${job_name:="${1:-"metric_name"}"}
+
+  curl \
+    -i \
+    -X DELETE \
+    "http://localhost:9091/metrics/job/${job_name}"
+
