@@ -10,8 +10,6 @@ services:
       - grafana_scripted_dashboards:/usr/share/grafana/public/dashboards/:ro
     environment:
       - GF_DASHBOARDS_JSON_ENABLED=true
-        # /usr/share/grafana/public/dashboards/
-# default.json  home.json  scripted.js  scripted_async.js  scripted_templated.js  template_vars.json
 
   prometheus:
     image: prom/prometheus:v1.7.1
@@ -53,6 +51,6 @@ volumes:
       device: "${PWD}"
   grafana_scripted_dashboards:
     driver_opts:
-      o: bind
+      o: bind,uid=500,gid=0,umask=000
       device: "${PWD}/scripted_dashboards"
 
