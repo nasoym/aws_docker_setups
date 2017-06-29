@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+: ${metric_value:="${1:-"1.0"}"}
+: ${metric_name:="${2:-"metric_name"}"}
+: ${metric_labels:="${3:-""}"}
+
+: ${job_name:="${metric_name}"}
+
+echo "${metric_name} {${metric_labels}} ${metric_value}" \
+  | curl \
+    -i \
+    -XPUT \
+    --data-binary @- \
+    "http://localhost:9091/metrics/job/${job_name}"
+
