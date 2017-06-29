@@ -66,6 +66,10 @@
             },
             {
               "alias": "avg",
+              "color": "#008888"
+            },
+            {
+              "alias": "winter",
               "color": "#004444"
             },
             {
@@ -148,6 +152,15 @@
               "intervalFactor": 2,
               "legendFormat": "avg",
               "refId": "H",
+              "step": 2
+            },
+            {
+              "expr": "holt_winters(one[1m],0.1,0.9)",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "winter",
+              "refId": "I",
               "step": 2
             }
           ],
