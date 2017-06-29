@@ -128,7 +128,7 @@
               "step": 2
             },
             {
-              "expr": "deriv(one[5m])",
+              "expr": "holt_winters(one[5m],0,1)",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
