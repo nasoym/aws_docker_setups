@@ -80,7 +80,7 @@
               "step": 2
             },
             {
-              "expr": "irate(one[10s])",
+              "expr": "irate(one[10m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "irate",
