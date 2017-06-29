@@ -16,7 +16,6 @@
 
 - targets: ['pushgateway:9091']
   labels:
-    job: pushgateway
     stage: monitoring
 
 

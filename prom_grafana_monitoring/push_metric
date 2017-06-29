@@ -8,7 +8,7 @@ set -eufo pipefail
 
 : ${job_name:="${metric_name}"}
 
-echo "${metric_name} {${metric_labels}} ${metric_value}" \
+echo "${metric_name}{${metric_labels}} ${metric_value}" \
   | curl \
     -i \
     -XPUT \
