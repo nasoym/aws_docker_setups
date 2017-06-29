@@ -6,5 +6,6 @@ echo "store datasources"
 ./grafana get_datasources
 
 echo "store dashboards"
-./grafana get_datasources
+./grafana list_dashboards \
+  | parallel -v './grafana get_dashboard {} | jq . > dashboards/{/}.json'
 
