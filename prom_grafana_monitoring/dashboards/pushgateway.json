@@ -75,7 +75,7 @@
               "step": 2
             },
             {
-              "expr": "irate(one[1m])",
+              "expr": "irate(one[1m],60)",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "irate",
