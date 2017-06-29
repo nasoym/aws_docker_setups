@@ -12,7 +12,7 @@
   "rows": [
     {
       "collapse": false,
-      "height": "250px",
+      "height": "400px",
       "panels": [
         {
           "aliasColors": {},
@@ -46,18 +46,26 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "foo",
+              "expr": "one",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "",
               "refId": "A",
+              "step": 2
+            },
+            {
+              "expr": "irate(one[5m])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "",
+              "refId": "B",
               "step": 2
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Panel",
+          "title": "Pushgateway",
           "tooltip": {
             "shared": false,
             "sort": 0,
