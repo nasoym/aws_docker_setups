@@ -128,7 +128,7 @@
               "step": 2
             },
             {
-              "expr": "rate(one[20s]) * irate(one[5m])",
+              "expr": "rate(one[20s]) + irate(one[5m])",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
