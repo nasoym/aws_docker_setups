@@ -102,7 +102,7 @@
               "step": 2
             },
             {
-              "expr": "idelta(one[5m])",
+              "expr": "delta(one[5m])",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
