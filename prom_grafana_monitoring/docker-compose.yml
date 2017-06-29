@@ -51,6 +51,6 @@ volumes:
       device: "${PWD}"
   grafana_scripted_dashboards:
     driver_opts:
-      o: bind,uid=500,gid=0,umask=000
+      o: bind
       device: "${PWD}/scripted_dashboards"
 
