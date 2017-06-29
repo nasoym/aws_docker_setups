@@ -71,7 +71,7 @@
               "step": 2
             },
             {
-              "expr": "predict_linear(one[10s],10)",
+              "expr": "predict_linear(one[10s],5)",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "rate",
@@ -177,5 +177,5 @@
   },
   "timezone": "browser",
   "title": "Pushgateway",
-  "version": 2
+  "version": 1
 }
