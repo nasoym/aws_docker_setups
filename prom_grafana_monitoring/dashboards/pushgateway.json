@@ -65,7 +65,7 @@
               "color": "#7777BB"
             },
             {
-              "alias": "foo",
+              "alias": "predict",
               "color": "#00eeee"
             }
           ],
@@ -85,14 +85,14 @@
             {
               "expr": "predict_linear(one[10s],5)",
               "format": "time_series",
-              "hide": true,
+              "hide": false,
               "intervalFactor": 2,
-              "legendFormat": "rate",
+              "legendFormat": "predict",
               "refId": "B",
               "step": 2
             },
             {
-              "expr": "irate(one[5m])",
+              "expr": "irate(one[1m])",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
@@ -103,16 +103,16 @@
             {
               "expr": "increase(one[1m])",
               "format": "time_series",
-              "hide": true,
+              "hide": false,
               "intervalFactor": 2,
               "legendFormat": "increase",
               "refId": "D",
               "step": 2
             },
             {
-              "expr": "idelta(one[5m])",
+              "expr": "idelta(one[1m])",
               "format": "time_series",
-              "hide": true,
+              "hide": false,
               "intervalFactor": 2,
               "legendFormat": "idelta",
               "refId": "E",
@@ -121,18 +121,18 @@
             {
               "expr": "delta(one[1m])",
               "format": "time_series",
-              "hide": true,
+              "hide": false,
               "intervalFactor": 2,
               "legendFormat": "delta",
               "refId": "F",
               "step": 2
             },
             {
-              "expr": "rate(one[20s]) + irate(one[5m])",
+              "expr": "rate(one[1m])",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
-              "legendFormat": "foo",
+              "legendFormat": "rate",
               "refId": "G",
               "step": 2
             }
@@ -183,7 +183,7 @@
     }
   ],
   "schemaVersion": 14,
-  "style": "light",
+  "style": "dark",
   "tags": [],
   "templating": {
     "list": []
