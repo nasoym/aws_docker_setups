@@ -42,7 +42,8 @@
           "seriesOverrides": [
             {
               "alias": "value",
-              "color": "#009900"
+              "color": "#009900",
+              "linewidth": 2
             },
             {
               "alias": "rate",
