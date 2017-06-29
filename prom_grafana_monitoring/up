@@ -23,5 +23,6 @@ ec2 scp $@ ${project_name} scripted_dashboards
 ec2 ssh $@ <<EOF
   cd ${project_name}
   docker-compose up -d --remove-orphans
+  curl -s -X POST "http://localhost:9090/-/reload"
 EOF
 
