@@ -92,7 +92,7 @@
               "step": 2
             },
             {
-              "expr": "increase(one[5m])",
+              "expr": "increase(one[1m])",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
