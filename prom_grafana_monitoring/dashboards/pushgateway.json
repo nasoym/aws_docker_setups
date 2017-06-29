@@ -128,7 +128,7 @@
               "step": 2
             },
             {
-              "expr": "max_over_time(one[1m])",
+              "expr": "sum_over_time(one[1m])",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
