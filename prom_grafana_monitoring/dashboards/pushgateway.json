@@ -42,11 +42,11 @@
           "seriesOverrides": [
             {
               "alias": "irate",
-              "color": "#bb0000"
+              "color": "#880000"
             },
             {
               "alias": "rate",
-              "color": "#990000"
+              "color": "#440000"
             },
             {
               "alias": "delta",
