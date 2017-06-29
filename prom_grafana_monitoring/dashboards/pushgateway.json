@@ -87,7 +87,7 @@
               "step": 2
             },
             {
-              "expr": "increase(one[1m])",
+              "expr": "increase(one[10s])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "increase",
