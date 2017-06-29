@@ -2,6 +2,7 @@
   "annotations": {
     "list": []
   },
+  "editMode": false,
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -39,7 +40,20 @@
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [],
+          "seriesOverrides": [
+            {
+              "alias": "value",
+              "color": "#009900"
+            },
+            {
+              "alias": "irate",
+              "color": "#000099"
+            },
+            {
+              "alias": "rate",
+              "color": "#990000"
+            }
+          ],
           "spaceLength": 10,
           "span": 12,
           "stack": false,
@@ -49,7 +63,7 @@
               "expr": "one",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "",
+              "legendFormat": "value",
               "refId": "A",
               "step": 2
             },
@@ -57,8 +71,16 @@
               "expr": "irate(one[5m])",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "",
+              "legendFormat": "irate",
               "refId": "B",
+              "step": 2
+            },
+            {
+              "expr": "rate(one[5m])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "rate",
+              "refId": "C",
               "step": 2
             }
           ],
@@ -144,5 +166,5 @@
   },
   "timezone": "browser",
   "title": "Pushgateway",
-  "version": 1
+  "version": 2
 }
