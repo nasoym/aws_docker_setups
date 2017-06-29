@@ -94,7 +94,7 @@
             {
               "expr": "irate(one[5m])",
               "format": "time_series",
-              "hide": true,
+              "hide": false,
               "intervalFactor": 2,
               "legendFormat": "irate",
               "refId": "C",
