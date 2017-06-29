@@ -68,7 +68,7 @@
               "step": 2
             },
             {
-              "expr": "irate(one[5m])",
+              "expr": "irate(one[1m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "irate",
@@ -76,7 +76,7 @@
               "step": 2
             },
             {
-              "expr": "rate(one[5m])",
+              "expr": "rate(one[1m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "rate",
