@@ -49,11 +49,11 @@
               "color": "#440000"
             },
             {
-              "alias": "delta",
+              "alias": "idelta",
               "color": "#880088"
             },
             {
-              "alias": "idelta",
+              "alias": "delta",
               "color": "#440044"
             },
             {
