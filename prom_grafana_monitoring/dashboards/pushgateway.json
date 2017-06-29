@@ -86,6 +86,7 @@
             {
               "expr": "irate(one[5m])",
               "format": "time_series",
+              "hide": true,
               "intervalFactor": 2,
               "legendFormat": "irate",
               "refId": "C",
@@ -94,7 +95,7 @@
             {
               "expr": "increase(one[1m])",
               "format": "time_series",
-              "hide": false,
+              "hide": true,
               "intervalFactor": 2,
               "legendFormat": "increase",
               "refId": "D",
