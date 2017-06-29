@@ -41,17 +41,12 @@
           "renderer": "flot",
           "seriesOverrides": [
             {
-              "alias": "value",
-              "color": "#009900",
-              "linewidth": 2
+              "alias": "irate",
+              "color": "#bb0000"
             },
             {
               "alias": "rate",
               "color": "#990000"
-            },
-            {
-              "alias": "increase",
-              "color": "#998800"
             },
             {
               "alias": "delta",
@@ -62,12 +57,17 @@
               "color": "#990099"
             },
             {
-              "alias": "irate",
-              "color": "#7777BB"
+              "alias": "increase",
+              "color": "#998800"
             },
             {
               "alias": "predict",
               "color": "#00eeee"
+            },
+            {
+              "alias": "value",
+              "color": "#00ff00",
+              "linewidth": 2
             }
           ],
           "spaceLength": 10,
