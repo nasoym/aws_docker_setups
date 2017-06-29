@@ -28,7 +28,7 @@ dashboard = {
 };
 
 // Set a title
-dashboard.title = 'Scripted dash';
+dashboard.title = 'foo bar [Scripted dash';
 
 // Set default time
 // time can be overriden in the url using from/to parameters, but this is
@@ -57,11 +57,11 @@ for (var i = 0; i < rows; i++) {
     height: '300px',
     panels: [
       {
-        title: 'Events: ' + seconds,
+        title: 'bBBBB Events: Fooooo ' + seconds,
         type: 'graph',
         span: 12,
         fill: 1,
-        linewidth: 2,
+        linewidth: 6,
         targets: [
           {
             'target': "randomWalk('" + seriesName + "')"
