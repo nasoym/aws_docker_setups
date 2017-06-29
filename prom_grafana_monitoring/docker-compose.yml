@@ -8,8 +8,11 @@ services:
       - 3000:3000
     volumes:
       - grafana_scripted_dashboards:/usr/share/grafana/public/dashboards/:ro
+    # - ./grafana.ini:/var/lib/grafana/grafana.ini
     environment:
       - GF_DASHBOARDS_JSON_ENABLED=true
+    #  - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,mtanda-heatmap-epoch-panel,mtanda-histogram-panel,grafana-piechart-panel,jdbranham-diagram-panel
+    # command: "--config /var/lib/grafana/grafana.ini"
 
   prometheus:
     image: prom/prometheus:v1.7.1
