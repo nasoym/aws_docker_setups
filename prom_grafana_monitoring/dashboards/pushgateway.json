@@ -49,6 +49,10 @@
               "color": "#990000"
             },
             {
+              "alias": "increase",
+              "color": "#998800"
+            },
+            {
               "alias": "irate",
               "color": "#7777BB"
             }
@@ -80,6 +84,14 @@
               "intervalFactor": 2,
               "legendFormat": "irate",
               "refId": "C",
+              "step": 2
+            },
+            {
+              "expr": "increase(one[1m])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "increase",
+              "refId": "D",
               "step": 2
             }
           ],
