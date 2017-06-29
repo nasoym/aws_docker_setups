@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+echo "add datasources"
+find datasources -type f -name "*.json" \
+  | parallel -v 'cat {} | ./grafana add_datasource'
+
+echo
+
+echo "add dashboards"
+find dashboards -type f -name "*.json" \
+  | parallel -v 'cat {} | ./grafana add_dashboard'
+
+echo
+

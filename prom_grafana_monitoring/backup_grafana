@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+echo "store datasources"
+./grafana get_datasources
+
+echo "store dashboards"
+./grafana get_datasources
+
