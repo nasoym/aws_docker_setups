@@ -50,19 +50,19 @@
             },
             {
               "alias": "delta",
-              "color": "#44ee44"
+              "color": "#880088"
             },
             {
               "alias": "idelta",
-              "color": "#990099"
+              "color": "#440044"
             },
             {
               "alias": "increase",
-              "color": "#998800"
+              "color": "#000088"
             },
             {
               "alias": "predict",
-              "color": "#00eeee"
+              "color": "#000044"
             },
             {
               "alias": "value",
