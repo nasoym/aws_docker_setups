@@ -6,7 +6,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "hideControls": false,
-  "id": 1,
+  "id": 2,
   "links": [],
   "refresh": "5s",
   "rows": [
@@ -44,6 +44,9 @@
               "alias": "load",
               "color": "#890F02",
               "linewidth": 3
+            },
+            {
+              "alias": "context"
             }
           ],
           "spaceLength": 10,
@@ -66,6 +69,14 @@
               "legendFormat": "load",
               "refId": "B",
               "step": 2
+            },
+            {
+              "expr": "irate(node_context_switches[1m])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "context",
+              "refId": "C",
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -87,7 +98,7 @@
           },
           "yaxes": [
             {
-              "format": "s",
+              "format": "none",
               "label": null,
               "logBase": 10,
               "max": null,
@@ -147,7 +158,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "node_procs_running",
+              "expr": "max_over_time(node_procs_running[10s])",
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
@@ -182,7 +193,7 @@
             {
               "format": "short",
               "label": null,
-              "logBase": 1,
+              "logBase": 2,
               "max": null,
               "min": null,
               "show": true
@@ -306,7 +317,7 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -336,5 +347,5 @@
   },
   "timezone": "browser",
   "title": "Foo",
-  "version": 1
+  "version": 2
 }
