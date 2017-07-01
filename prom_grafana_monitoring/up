@@ -9,6 +9,8 @@ if [[ -z "$@" ]]; then
   exit 1
 fi
 
+provision_ec2 docker $@
+
 ec2 ssh $@ <<EOF
   mkdir -p ${project_name}
   mkdir -p ${project_name}/scripted_dashboards
