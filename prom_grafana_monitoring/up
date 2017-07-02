@@ -2,7 +2,7 @@
 
 set -eufo pipefail
 
-project_name="$(basename $(dirname $(realpath $0)))"
+: ${project_name:="monitoring"}
 
 if [[ -z "$@" ]]; then 
   echo "instance[s] name must be provided" >&2
@@ -24,7 +24,7 @@ ec2 scp $@ ${project_name} scripted_dashboards
 
 ec2 ssh $@ <<EOF
   cd ${project_name}
-  docker-compose up -d --remove-orphans
+  docker-compose -p ${project_name} up -d --remove-orphans
   curl -s -X POST "http://localhost:9090/-/reload"
 EOF
 
