@@ -1,6 +1,21 @@
 {
   "annotations": {
-    "list": []
+    "list": [
+      {
+        "datasource": "prometheus",
+        "enable": true,
+        "expr": "idelta(foo[5s])",
+        "hide": false,
+        "iconColor": "rgba(255, 96, 96, 1)",
+        "limit": 100,
+        "name": "foo",
+        "showIn": 0,
+        "step": "2s",
+        "tagKeys": "bla",
+        "titleFormat": "foo",
+        "type": "alert"
+      }
+    ]
   },
   "editable": true,
   "gnetId": null,
@@ -251,17 +266,17 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "node_sockstat_TCP_alloc",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "refId": "A",
-              "step": 2
-            },
-            {
-              "expr": "node_sockstat_TCP_inuse",
+              "expr": "foo",
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "B",
+              "step": 2
+            },
+            {
+              "expr": "idelta(foo[5s])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "refId": "A",
               "step": 2
             }
           ],
@@ -347,5 +362,5 @@
   },
   "timezone": "browser",
   "title": "Foo",
-  "version": 2
+  "version": 1
 }
