@@ -15,6 +15,8 @@ ec2 ssh $@ <<EOF
   mkdir -p ${project_name}
   mkdir -p ${project_name}/scripted_dashboards
   sudo chown -R ec2-user:ec2-user ${project_name}/scripted_dashboards
+  mkdir -p ${project_name}/node_exporter_text
+  sudo chown -R ec2-user:ec2-user ${project_name}/node_exporter_text
 EOF
 
 ec2 scp $@ ${project_name} targets.yml

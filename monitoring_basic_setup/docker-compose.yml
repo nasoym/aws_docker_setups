@@ -51,11 +51,16 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /:/rootfs:ro
-    command: -collector.procfs /host/proc -collector.sysfs /host/sys -collectors.enabled "loadavg,stat" 
+      - node_exporter:/node_exporter_text:ro
+    command: -collector.procfs /host/proc -collector.sysfs /host/sys -collectors.enabled "loadavg,stat,textfile" --collector.textfile.directory /node_exporter_text/
     #-collectors.enabled "tcpstat,sockstat" 
     # -collectors.enabled "time,conntrack" 
 
 volumes:
+  node_exporter:
+    driver_opts:
+      o: bind
+      device: "${PWD}/node_exporter_text"
   prometheus:
     driver_opts:
       o: bind
