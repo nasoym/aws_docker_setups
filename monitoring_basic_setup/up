@@ -29,19 +29,6 @@ ec2 ssh $@ <<EOF
 
   export HOST_IP_ADDRESS="\$(hostname -i)"
 
-  docker network create consul
-  docker rm -vf consul
-  docker rm -vf registrator
-  docker run -d --name=consul \
-    --net host \
-    --net consul \
-    -p 8500:8500 \
-    gliderlabs/consul-server -bootstrap
-  docker run -d --name=registrator \
-    --net consul \
-    --volume=/var/run/docker.sock:/tmp/docker.sock \
-    gliderlabs/registrator -ip \$HOST_IP_ADDRESS consul://consul:8500
-
   docker-compose -p ${project_name} up -d --remove-orphans
   curl -s -X POST "http://localhost:9090/-/reload"
 EOF
