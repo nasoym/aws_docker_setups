@@ -16,31 +16,32 @@ services:
     #  - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,mtanda-heatmap-epoch-panel,mtanda-histogram-panel,grafana-piechart-panel,jdbranham-diagram-panel
     # command: "--config /var/lib/grafana/grafana.ini"
 
-  consul:
-    image: gliderlabs/consul-server 
-    restart: unless-stopped
-    # network_mode: host # define private ip address
-    networks:
-      - monitoring
-    ports:
-      - 8500:8500
-    command: -bootstrap
-
-  consul_registrator:
-    image: gliderlabs/registrator 
-    restart: unless-stopped
-    # network_mode: host
-    networks:
-      - monitoring
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock 
-    command: consul://consul:8500
+  # consul:
+  #   image: gliderlabs/consul-server 
+  #   restart: unless-stopped
+  #   # network_mode: host # define private ip address
+  #   networks:
+  #     - monitoring
+  #   ports:
+  #     - 8500:8500
+  #   command: -bootstrap -advertise ${HOST_IP_ADDRESS}
+  #
+  # consul_registrator:
+  #   image: gliderlabs/registrator 
+  #   restart: unless-stopped
+  #   # network_mode: host
+  #   networks:
+  #     - monitoring
+  #   volumes:
+  #     - /var/run/docker.sock:/tmp/docker.sock 
+  #   command: consul://consul:8500
 
   prometheus:
     image: prom/prometheus:v1.7.1
     restart: unless-stopped
     networks:
       - monitoring
+      - consul
     volumes:
       - prometheus:/prometheus_config:ro
     ports:
@@ -96,6 +97,9 @@ services:
 
 networks:
   monitoring:
+  consul:
+    external:
+      name: consul
 
 volumes:
   node_exporter:
