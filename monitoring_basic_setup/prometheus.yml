@@ -15,11 +15,31 @@ scrape_configs:
     - source_labels: ['__meta_consul_tags']
       regex: '^.*,monitored,.*$'
       action: keep
-    - source_labels: ['__meta_consul_node']
-      target_label: instance
+    # - source_labels: ['__meta_consul_service_id']
+    #   target_label: job
+    # - source_labels: ['__meta_consul_node']
+    #   target_label: instance
     - source_labels: ['__meta_consul_service']
-      target_label: service
+      target_label: job
     - source_labels: ['__meta_consul_tags']
       target_label: tags
+    - source_labels: ['__meta_consul_node']
+      target_label: instance
+    - source_labels: ['__meta_consul_service_id']
+      action: replace
+      target_label: container
+      regex: "[^:]*:([^:]+):.*"
+      replacement: $1
+
+  # __meta_consul_address: the address of the target
+  # __meta_consul_dc: the datacenter name for the target
+  # __meta_consul_node: the node name defined for the target
+  # __meta_consul_service_address: the service address of the target
+  # __meta_consul_service_id: the service ID of the target
+  # __meta_consul_service_port: the service port of the target
+  # __meta_consul_service: the name of the service the target belongs to
+  # __meta_consul_tags: the list of tags of the target joined by the tag separator
+
+
 
 
