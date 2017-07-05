@@ -21,7 +21,6 @@ services:
     restart: unless-stopped
     networks:
       - monitoring
-      - host_network
     ports:
       - 8500:8500
     command: -bootstrap
@@ -29,6 +28,8 @@ services:
   consul_registrator:
     image: gliderlabs/registrator 
     restart: unless-stopped
+    networks:
+      - monitoring
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock 
     command: consul://consul:8500
@@ -93,8 +94,6 @@ services:
 
 networks:
   monitoring:
-  host_network:
-    driver: host
 
 volumes:
   node_exporter:
