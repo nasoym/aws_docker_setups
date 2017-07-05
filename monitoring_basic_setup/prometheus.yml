@@ -7,4 +7,19 @@ scrape_configs:
     file_sd_configs:
     - files:
       - /prometheus_config/targets.yml
+  - job_name: 'consul_registered_services'
+    metrics_path: '/metrics'
+    consul_sd_configs:
+    - server: 'consul:8500'
+    relabel_configs:
+    - source_labels: ['__meta_consul_tags']
+      regex: '^.*,monitored,.*$'
+      action: keep
+    - source_labels: ['__meta_consul_node']
+      target_label: instance
+    - source_labels: ['__meta_consul_service']
+      target_label: service
+    - source_labels: ['__meta_consul_tags']
+      target_label: tags
+
 

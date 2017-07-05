@@ -6,6 +6,8 @@ services:
     restart: unless-stopped
     ports: 
       - 3000:3000
+    networks:
+      - monitoring
     volumes:
       - grafana_scripted_dashboards:/usr/share/grafana/public/dashboards/:ro
     # - ./grafana.ini:/var/lib/grafana/grafana.ini
@@ -14,9 +16,28 @@ services:
     #  - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,mtanda-heatmap-epoch-panel,mtanda-histogram-panel,grafana-piechart-panel,jdbranham-diagram-panel
     # command: "--config /var/lib/grafana/grafana.ini"
 
+  consul:
+    image: gliderlabs/consul-server 
+    restart: unless-stopped
+    networks:
+      - monitoring
+      - host_network
+    ports:
+      - 8500:8500
+    command: -bootstrap
+
+  consul_registrator:
+    image: gliderlabs/registrator 
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock 
+    command: consul://consul:8500
+
   prometheus:
     image: prom/prometheus:v1.7.1
     restart: unless-stopped
+    networks:
+      - monitoring
     volumes:
       - prometheus:/prometheus_config:ro
     ports:
@@ -26,13 +47,25 @@ services:
   pushgateway:
     image: prom/pushgateway:v0.4.0
     restart: unless-stopped
+    networks:
+      - monitoring
     ports:
       - 9091:9091
+
+  discovered_pushgateway:
+    image: prom/pushgateway:v0.4.0
+    restart: unless-stopped
+    environment:
+      - SERVICE_TAGS=monitored
+    ports:
+      - 9091
 
   cadvisor:
     image: google/cadvisor:v0.26.1
     restart: unless-stopped
     privileged: true
+    networks:
+      - monitoring
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -47,6 +80,8 @@ services:
     ports:
       - 9100:9100
     restart: unless-stopped
+    networks:
+      - monitoring
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -55,6 +90,11 @@ services:
     command: -collector.procfs /host/proc -collector.sysfs /host/sys -collectors.enabled "loadavg,stat,textfile" --collector.textfile.directory /node_exporter_text/
     #-collectors.enabled "tcpstat,sockstat" 
     # -collectors.enabled "time,conntrack" 
+
+networks:
+  monitoring:
+  host_network:
+    driver: host
 
 volumes:
   node_exporter:
