@@ -43,7 +43,7 @@ services:
       - prometheus:/prometheus_config:ro
     ports:
       - 9090:9090
-    command: -config.file=/prometheus_config/prometheus.yml
+    command: -config.file=/prometheus_config/prometheus.yml -query.staleness-delta=10s
 
   pushgateway:
     image: prom/pushgateway:v0.4.0
@@ -60,6 +60,17 @@ services:
       - SERVICE_TAGS=monitored
     ports:
       - 9091
+
+  discovered_bss:
+    image: nasoym/bss_docker
+    restart: unless-stopped
+    environment:
+      - SERVICE_NAME=bss_bss
+      - SERVICE_TAGS=monitored,path=prometheus
+    ports:
+      - 8080
+    volumes:
+      - ./bss_handlers:/bss/handlers 
 
   cadvisor:
     image: google/cadvisor:v0.26.1

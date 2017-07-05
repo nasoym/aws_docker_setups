@@ -30,6 +30,11 @@ scrape_configs:
       target_label: container
       regex: "[^:]*:([^:]+):.*"
       replacement: $1
+    - source_labels: ['__meta_consul_tags']
+      action: replace
+      target_label: __metrics_path__
+      regex: "^.*,path=([^,]+),.*$"
+      replacement: "/${1}"
 
   # __meta_consul_address: the address of the target
   # __meta_consul_dc: the datacenter name for the target

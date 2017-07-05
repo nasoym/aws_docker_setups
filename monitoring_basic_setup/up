@@ -17,12 +17,15 @@ ec2 ssh $@ <<EOF
   sudo chown -R ec2-user:ec2-user ${project_name}/scripted_dashboards
   mkdir -p ${project_name}/node_exporter_text
   sudo chown -R ec2-user:ec2-user ${project_name}/node_exporter_text
+  mkdir -p ${project_name}/bss_handlers
+  sudo chown -R ec2-user:ec2-user ${project_name}/bss_handlers
 EOF
 
 ec2 scp $@ ${project_name} targets.yml
 ec2 scp $@ ${project_name} prometheus.yml
 ec2 scp $@ ${project_name} docker-compose.yml
 ec2 scp $@ ${project_name} scripted_dashboards
+ec2 scp $@ ${project_name} bss_handlers
 
 ec2 ssh $@ <<EOF
   cd ${project_name}
