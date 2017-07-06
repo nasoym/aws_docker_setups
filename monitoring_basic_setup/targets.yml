@@ -1,5 +1,5 @@
 
-- targets: ['node_exporter:9100']
+- targets: ['node-exporter:9100']
   labels:
     job: node_exporter
     stage: monitoring
