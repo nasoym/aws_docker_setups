@@ -1,0 +1,13 @@
+version: '3'
+services:
+
+  discovered_bss:
+    image: nasoym/bss_docker
+    environment:
+      - SERVICE_NAME=bss_bss
+      - SERVICE_TAGS=monitored,path=prometheus
+    ports:
+      - 8080
+    volumes:
+      - ./bss_handlers:/bss/handlers 
+
