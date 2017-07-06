@@ -1,7 +1,7 @@
 
 - targets: ['node-exporter:9100']
   labels:
-    job: node_exporter
+    job: node-exporter
     stage: monitoring
 
 - targets: ['cadvisor:8080']

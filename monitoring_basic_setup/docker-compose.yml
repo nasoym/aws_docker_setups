@@ -55,25 +55,6 @@ services:
     ports:
       - 9091:9091
 
-  discovered_pushgateway:
-    image: prom/pushgateway:v0.4.0
-    restart: unless-stopped
-    environment:
-      - SERVICE_TAGS=monitored
-    ports:
-      - 9091
-
-  discovered_bss:
-    image: nasoym/bss_docker
-    restart: unless-stopped
-    environment:
-      - SERVICE_NAME=bss_bss
-      - SERVICE_TAGS=monitored,path=prometheus
-    ports:
-      - 8080
-    volumes:
-      - ./bss_handlers:/bss/handlers 
-
   cadvisor:
     image: google/cadvisor:v0.26.1
     restart: unless-stopped

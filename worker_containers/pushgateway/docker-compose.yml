@@ -1,0 +1,10 @@
+version: '3'
+services:
+
+  pushgateway:
+    image: prom/pushgateway:v0.4.0
+    environment:
+      - SERVICE_TAGS=monitored
+    ports:
+      - 9091
+

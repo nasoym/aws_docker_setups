@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-echo 'bla{service="bss"} 4.0'
-echo
-
