@@ -1,0 +1,38 @@
+version: '3'
+services:
+
+  consul_registrator:
+    image: gliderlabs/registrator 
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock 
+    command: -ip ${HOST_IP_ADDRESS} consul://${CONSUL_SERVER}:8500
+
+  cadvisor:
+    image: google/cadvisor:v0.26.1
+    restart: unless-stopped
+    privileged: true
+    environment:
+      - SERVICE_TAGS=monitored
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /cgroup:/cgroup:ro
+    ports:
+      - 8080:8080
+
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    ports:
+      - 9100:9100
+    restart: unless-stopped
+    environment:
+      - SERVICE_TAGS=monitored
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command: -collector.procfs /host/proc -collector.sysfs /host/sys 
+

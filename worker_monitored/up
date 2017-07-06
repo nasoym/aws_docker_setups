@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+: ${project_name:="docker_host"}
+
+if [[ "$#" -ge 1 ]] && [[ "$1" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]];then
+  consul_server="$1"
+  shift
+else
+  consul_server="$( ec2 details monitoring | jq -r '.PrivateIpAddresses[0]' )"
+fi
+
+if [[ -z "$@" ]]; then 
+  echo "instance[s] name must be provided" >&2
+  exit 1
+fi
+
+provision_ec2 docker $@
+
+ec2 ssh $@ <<EOF
+  mkdir -p ${project_name}
+EOF
+
+ec2 scp $@ ${project_name} docker-compose.yml
+
+ec2 ssh $@ <<EOF
+  cd ${project_name}
+  export HOST_IP_ADDRESS="\$(hostname -i)"
+  export CONSUL_SERVER="${consul_server}"
+  docker-compose -p ${project_name} up -d --remove-orphans
+EOF
+
