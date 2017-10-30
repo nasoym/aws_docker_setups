@@ -43,13 +43,9 @@ services:
 
   worker1:
     image: nasoym/spring-boot-dummy-service
-    ports:
-      - 8081:8080
 
   worker2:
     image: nasoym/spring-boot-dummy-service
-    ports:
-      - 8082:8080
 
   apache_benchmark:
     image: alpine
