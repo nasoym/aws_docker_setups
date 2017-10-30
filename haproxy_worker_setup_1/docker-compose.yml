@@ -1,0 +1,7 @@
+version: '3'
+services:
+
+  prometheus:
+    image: prom/prometheus:v1.7.1
+    restart: unless-stopped
+
