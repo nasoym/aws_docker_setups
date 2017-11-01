@@ -11,33 +11,11 @@ function ensure_service_available() {
 }
 
 : ${grafan_host:="http://grafana:3000"}
-: ${haproxy_host:="http://haproxy:80/"}
+: ${haproxy_host:="http://haproxy:80"}
 
 apk --no-cache add apache2-utils curl jq
 
-echo "ensure grafana is running"
-ensure_service_available "${grafan_host}"
-
-echo "add datasources"
-for file in $(find /grafana/datasources -type f) ; do
-  echo "upload: ${file}"
-  cat ${file} \
-  | curl -s --user "admin:admin" \
-    -X POST -H 'Content-Type: application/json;charset=UTF-8' --data-binary "@-" \
-    "${grafan_host}/api/datasources"
-done
-echo
-
-echo "add dashboards"
-for file in $(find /grafana/dashboards -type f) ; do
-  echo "upload: ${file}"
-  cat ${file} \
-  | jq '{dashboard:.,overwrite:true}|.dashboard.id=null|.dashboard.version=null' \
-  | curl -s --user "admin:admin" \
-    -X POST -H 'Content-Type: application/json;charset=UTF-8' --data-binary "@-" \
-    "${grafan_host}/api/dashboards/db"
-done
-echo
+/grafana_setup.sh
 
 echo "ensure haproxy is responding"
 ensure_service_available "${haproxy_host}"
@@ -45,7 +23,9 @@ ensure_service_available "${haproxy_host}"
 epoche_start="$(date +%s)"
 
 echo "run apache benchmark"
-ab -s 300 -n 100000 -c 50 "${haproxy_host}"
+# ab -s 300 -n 100000 -c 50 "${haproxy_host}"
+ab -s 300 -n 100000 -c 50 "${haproxy_host}/createstring"
+
 # ab -s 300 -n 1000 -k -c 5 "${haproxy_host}"
 
 echo "final wait"

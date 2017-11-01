@@ -50,6 +50,7 @@ services:
   apache_benchmark:
     image: alpine
     volumes:
+      - ./grafana_setup.sh:/grafana_setup.sh:ro
       - ./benchmark.sh:/benchmark.sh:ro
       - ./config/grafana:/grafana:ro
       - ./grafana_render:/grafana_render
