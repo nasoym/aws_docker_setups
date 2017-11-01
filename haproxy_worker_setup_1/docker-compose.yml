@@ -47,6 +47,9 @@ services:
   worker2:
     image: nasoym/spring-boot-dummy-service
 
+  worker3:
+    image: nasoym/spring-boot-dummy-service
+
   apache_benchmark:
     image: alpine
     volumes:
