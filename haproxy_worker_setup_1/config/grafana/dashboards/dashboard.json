@@ -4,7 +4,7 @@
   },
   "editable": true,
   "gnetId": null,
-  "graphTooltip": 0,
+  "graphTooltip": 1,
   "hideControls": false,
   "id": 1,
   "links": [],
@@ -20,7 +20,7 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": null,
-          "fill": 1,
+          "fill": 0,
           "id": 1,
           "legend": {
             "avg": false,
@@ -39,26 +39,47 @@
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [],
+          "seriesOverrides": [
+            {
+              "alias": "frontend sessions",
+              "yaxis": 2
+            }
+          ],
           "spaceLength": 10,
           "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(haproxy_backend_connections_total{backend=\"workers\"}[1m])",
+              "expr": "increase(haproxy_frontend_connections_total{frontend=\"frontend\"}[20s])",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "haproxy_backend_connections_total",
+              "legendFormat": "frontend con",
+              "refId": "B",
+              "step": 4
+            },
+            {
+              "expr": "increase(haproxy_backend_connections_total{backend=\"workers\"}[20s])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "backend con",
               "metric": "haproxy_backend_connections_total",
               "refId": "A",
-              "step": 2
+              "step": 4
+            },
+            {
+              "expr": "haproxy_frontend_current_sessions{frontend=\"frontend\"}",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "frontend sessions",
+              "refId": "C",
+              "step": 4
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "haproxy_backend_connections_total rate1m",
+          "title": "haproxy connections/sessions",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -97,8 +118,8 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": null,
-          "fill": 1,
-          "id": 2,
+          "fill": 0,
+          "id": 6,
           "legend": {
             "avg": false,
             "current": false,
@@ -123,19 +144,27 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(haproxy_frontend_connections_total{frontend=\"frontend\"}[1m])",
+              "expr": "increase(haproxy_frontend_http_responses_total{frontend=\"frontend\"}[20s])",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "haproxy_frontend_connections_total",
-              "metric": "haproxy_frontend_connections_total",
+              "legendFormat": "{{code}}",
+              "metric": "haproxy_frontend_http_responses_total",
               "refId": "A",
-              "step": 2
+              "step": 4
+            },
+            {
+              "expr": "increase(haproxy_frontend_http_requests_total{frontend=\"frontend\"}[20s])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "req",
+              "refId": "B",
+              "step": 4
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "haproxy_frontend_connections_total rate1m",
+          "title": "haproxy_frontend request-responses",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -155,7 +184,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -174,7 +203,116 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": null,
-          "fill": 1,
+          "fill": 0,
+          "id": 7,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "total",
+              "yaxis": 1
+            }
+          ],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "haproxy_backend_http_total_time_average_seconds{backend=\"workers\"}",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "total",
+              "metric": "haproxy_backend_http_total_time_average_seconds",
+              "refId": "A",
+              "step": 4
+            },
+            {
+              "expr": "haproxy_backend_http_response_time_average_seconds{backend=\"workers\"}",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "response",
+              "metric": "haproxy_backend_http_response_time_average_seconds",
+              "refId": "B",
+              "step": 4
+            },
+            {
+              "expr": "haproxy_backend_http_connect_time_average_seconds{backend=\"workers\"}",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "connect",
+              "metric": "haproxy_backend_http_connect_time_average_seconds",
+              "refId": "C",
+              "step": 4
+            },
+            {
+              "expr": "haproxy_backend_http_queue_time_average_seconds{backend=\"workers\"}",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "queue",
+              "metric": "haproxy_backend_http_queue_time_average_seconds",
+              "refId": "D",
+              "step": 4
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "haproxy_backend average time (seconds)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 0,
           "id": 3,
           "legend": {
             "avg": false,
@@ -206,7 +344,7 @@
               "legendFormat": "haproxy_frontend_current_session_rate",
               "metric": "haproxy_frontend_current_session_rate",
               "refId": "A",
-              "step": 2
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -244,83 +382,6 @@
               "show": true
             }
           ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fill": 1,
-          "id": 4,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "rate(haproxy_frontend_http_requests_total{frontend=\"frontend\"}[1m])",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "haproxy_frontend_http_requests_total",
-              "metric": "haproxy_frontend_http_requests_total",
-              "refId": "A",
-              "step": 2
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "haproxy_frontend_http_requests_total rate1m",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
         }
       ],
       "repeat": null,
@@ -334,326 +395,6 @@
       "collapse": false,
       "height": 250,
       "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fill": 1,
-          "id": 5,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 4,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "haproxy_frontend_current_sessions{frontend=\"frontend\"}",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "haproxy_frontend_current_sessions",
-              "metric": "haproxy_frontend_current_sessions",
-              "refId": "A",
-              "step": 2
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "haproxy_frontend_current_sessions",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": "0",
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fill": 1,
-          "id": 6,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 4,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "rate(haproxy_frontend_http_responses_total{frontend=\"frontend\"}[1m])",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "{{code}}",
-              "metric": "haproxy_frontend_http_responses_total",
-              "refId": "A",
-              "step": 2
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "haproxy_frontend_http_responses_total rate1m",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": "0",
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fill": 1,
-          "id": 7,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 4,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "haproxy_backend_http_total_time_average_seconds{backend=\"workers\"}",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "haproxy_backend_http_total_time_average_seconds",
-              "metric": "haproxy_backend_http_total_time_average_seconds",
-              "refId": "A",
-              "step": 2
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "haproxy_backend_http_total_time_average_seconds",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": "0",
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Dashboard Row",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": 250,
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fill": 1,
-          "id": 8,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 4,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "rate(jvm_gc_collection_seconds_sum{gc=\"PS Scavenge\",job=\"worker\"}[1m])",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "jvm_gc_collection_seconds_sum {{instance}}",
-              "metric": "jvm_gc_",
-              "refId": "A",
-              "step": 2
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "jvm_gc_collection_seconds_sum rate1m",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": "0",
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
         {
           "aliasColors": {},
           "bars": false,
@@ -686,18 +427,104 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(process_cpu_seconds_total{job=\"worker\"}[1m])",
+              "expr": "increase(process_cpu_seconds_total{job=\"worker\"}[20s])",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "process_cpu_seconds_total {{instance}}",
+              "legendFormat": "{{instance}}",
               "refId": "A",
-              "step": 2
+              "step": 4
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "process_cpu_seconds_total rate1m",
+          "title": "process_cpu_seconds",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 8,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "increase(jvm_gc_collection_seconds_sum{gc=\"PS Scavenge\",job=\"worker\"}[20s])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "sum {{instance}}",
+              "metric": "jvm_gc_c",
+              "refId": "A",
+              "step": 4
+            },
+            {
+              "expr": "increase(jvm_gc_collection_seconds_count{gc=\"PS Scavenge\",job=\"worker\"}[20s])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "count {{instance}}",
+              "metric": "jvm_gc_c",
+              "refId": "B",
+              "step": 4
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "jvm_gc_collection_seconds",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -762,18 +589,18 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(jvm_threads_started_total{job=\"worker\"}[1m])",
+              "expr": "increase(jvm_threads_started_total{job=\"worker\"}[1m])",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "jvm_threads_started_total {{instance}}",
+              "legendFormat": "{{instance}}",
               "refId": "A",
-              "step": 2
+              "step": 4
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "jvm_threads_started_total rate1m",
+          "title": "jvm_threads",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -813,6 +640,17 @@
       "showTitle": false,
       "title": "Dashboard Row",
       "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
     }
   ],
   "schemaVersion": 14,
@@ -822,7 +660,7 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
@@ -852,5 +690,5 @@
   },
   "timezone": "browser",
   "title": "dashboard",
-  "version": 3
+  "version": 17
 }
