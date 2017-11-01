@@ -34,12 +34,12 @@ services:
   cadvisor:
     image: google/cadvisor:v0.26.1
     privileged: true
-    # volumes:
-      # - /:/rootfs:ro
-      # - /var/run:/var/run:rw
-      # - /sys:/sys:ro
-      # - /var/lib/docker/:/var/lib/docker:ro
-      # - /cgroup:/cgroup:ro
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /cgroup:/cgroup:ro
 
   worker1:
     image: nasoym/spring-boot-dummy-service
@@ -47,15 +47,12 @@ services:
   worker2:
     image: nasoym/spring-boot-dummy-service
 
-  worker3:
-    image: nasoym/spring-boot-dummy-service
-
   apache_benchmark:
     image: alpine
     volumes:
-      - ./grafana_setup.sh:/grafana_setup.sh:ro
-      - ./benchmark.sh:/benchmark.sh:ro
+      - ./config/grafana_setup.sh:/grafana_setup.sh:ro
+      - ./config/benchmark.sh:/benchmark.sh:ro
       - ./config/grafana:/grafana:ro
-      - ./grafana_render:/grafana_render
+      - ./config/grafana_render:/grafana_render
     command: /bin/sh -c "apk --no-cache add bash; ./benchmark.sh"
 

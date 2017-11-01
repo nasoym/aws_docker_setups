@@ -12,6 +12,7 @@ function ensure_service_available() {
 
 : ${grafan_host:="http://grafana:3000"}
 : ${haproxy_host:="http://haproxy:80"}
+: ${haproxy_path:="${haproxy_host}/"}
 
 apk --no-cache add apache2-utils curl jq
 
@@ -23,10 +24,8 @@ ensure_service_available "${haproxy_host}"
 epoche_start="$(date +%s)"
 
 echo "run apache benchmark"
-# ab -s 300 -n 100000 -c 50 "${haproxy_host}"
-ab -s 300 -n 100000 -c 50 "${haproxy_host}/createstring"
-
-# ab -s 300 -n 1000 -k -c 5 "${haproxy_host}"
+ab -r -s 300 -n 1000 -c 3 "${haproxy_path}"
+  # -k reuse session
 
 echo "final wait"
 sleep 10
@@ -43,6 +42,7 @@ curl -s --user "admin:admin" \
 &kiosk\
 &tz=CET\
 &width=1200\
+&timeout=10000\
 " \
   > /grafana_render/render_$(date +%FT%H_%M_%S).png
 

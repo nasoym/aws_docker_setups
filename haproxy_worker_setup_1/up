@@ -2,7 +2,7 @@
 
 set -eufo pipefail
 
-: ${project_name:="worker_$(basename $(pwd))"}
+: ${project_name:="$(basename $(pwd))"}
 
 if [[ -z "$@" ]]; then 
   echo "instance[s] name must be provided" >&2
@@ -16,14 +16,12 @@ ec2 ssh $@ <<EOF
 EOF
 
 ec2 scp $@ ${project_name} config
-ec2 scp $@ ${project_name} setup.sh
 ec2 scp $@ ${project_name} docker-compose.yml
 
 ec2 ssh $@ <<EOF
   cd ${project_name}
   export HOST_IP_ADDRESS="\$(hostname -i)"
   docker-compose -p ${project_name} up -d --remove-orphans
-  ./setup.sh
 EOF
 
 
