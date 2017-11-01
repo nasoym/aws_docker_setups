@@ -46,19 +46,19 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(haproxy_backend_connections_total{backend=\"workers\"}[5m])",
+              "expr": "rate(haproxy_backend_connections_total{backend=\"workers\"}[1m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "haproxy_backend_connections_total",
               "metric": "haproxy_backend_connections_total",
               "refId": "A",
-              "step": 10
+              "step": 2
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "haproxy_backend_connections_total rate5m",
+          "title": "haproxy_backend_connections_total rate1m",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -123,19 +123,19 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(haproxy_frontend_connections_total{frontend=\"frontend\"}[5m])",
+              "expr": "rate(haproxy_frontend_connections_total{frontend=\"frontend\"}[1m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "haproxy_frontend_connections_total",
               "metric": "haproxy_frontend_connections_total",
               "refId": "A",
-              "step": 10
+              "step": 2
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "haproxy_frontend_connections_total rate5m",
+          "title": "haproxy_frontend_connections_total rate1m",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -206,7 +206,7 @@
               "legendFormat": "haproxy_frontend_current_session_rate",
               "metric": "haproxy_frontend_current_session_rate",
               "refId": "A",
-              "step": 10
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -277,19 +277,19 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(haproxy_frontend_http_requests_total{frontend=\"frontend\"}[5m])",
+              "expr": "rate(haproxy_frontend_http_requests_total{frontend=\"frontend\"}[1m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "haproxy_frontend_http_requests_total",
               "metric": "haproxy_frontend_http_requests_total",
               "refId": "A",
-              "step": 10
+              "step": 2
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "haproxy_frontend_http_requests_total rate5m",
+          "title": "haproxy_frontend_http_requests_total rate1m",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -372,7 +372,7 @@
               "legendFormat": "haproxy_frontend_current_sessions",
               "metric": "haproxy_frontend_current_sessions",
               "refId": "A",
-              "step": 10
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -443,19 +443,19 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(haproxy_frontend_http_responses_total{frontend=\"frontend\"}[5m])",
+              "expr": "rate(haproxy_frontend_http_responses_total{frontend=\"frontend\"}[1m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{code}}",
               "metric": "haproxy_frontend_http_responses_total",
               "refId": "A",
-              "step": 10
+              "step": 2
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "haproxy_frontend_http_responses_total rate5m",
+          "title": "haproxy_frontend_http_responses_total rate1m",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -475,7 +475,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -526,7 +526,7 @@
               "legendFormat": "haproxy_backend_http_total_time_average_seconds",
               "metric": "haproxy_backend_http_total_time_average_seconds",
               "refId": "A",
-              "step": 10
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -552,7 +552,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -609,18 +609,19 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(jvm_gc_collection_seconds_sum{gc=\"PS Scavenge\",job=\"worker\"}[5m])",
+              "expr": "rate(jvm_gc_collection_seconds_sum{gc=\"PS Scavenge\",job=\"worker\"}[1m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "jvm_gc_collection_seconds_sum {{instance}}",
+              "metric": "jvm_gc_",
               "refId": "A",
-              "step": 10
+              "step": 2
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "jvm_gc_collection_seconds_sum rate5m",
+          "title": "jvm_gc_collection_seconds_sum rate1m",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -640,7 +641,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -685,18 +686,18 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(process_cpu_seconds_total{job=\"worker\"}[5m])",
+              "expr": "rate(process_cpu_seconds_total{job=\"worker\"}[1m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "process_cpu_seconds_total {{instance}}",
               "refId": "A",
-              "step": 10
+              "step": 2
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "process_cpu_seconds_total rate5m",
+          "title": "process_cpu_seconds_total rate1m",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -716,7 +717,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -761,18 +762,18 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(jvm_threads_started_total{job=\"worker\"}[5m])",
+              "expr": "rate(jvm_threads_started_total{job=\"worker\"}[1m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "jvm_threads_started_total {{instance}}",
               "refId": "A",
-              "step": 10
+              "step": 2
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "jvm_threads_started_total rate5m",
+          "title": "jvm_threads_started_total rate1m",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -792,7 +793,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -821,7 +822,7 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -851,5 +852,5 @@
   },
   "timezone": "browser",
   "title": "dashboard",
-  "version": 8
+  "version": 3
 }
