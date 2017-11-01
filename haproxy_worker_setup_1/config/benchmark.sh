@@ -12,7 +12,7 @@ function ensure_service_available() {
 
 : ${grafan_host:="http://grafana:3000"}
 : ${haproxy_host:="http://haproxy:80"}
-: ${haproxy_path:="${haproxy_host}/"}
+: ${haproxy_path:="${haproxy_host}/memory_usage?usage=50"}
 
 apk --no-cache add apache2-utils curl jq
 
@@ -23,8 +23,11 @@ ensure_service_available "${haproxy_host}"
 
 epoche_start="$(date +%s)"
 
+echo "initial wait"
+sleep 10
+
 echo "run apache benchmark"
-ab -r -s 300 -n 1000 -c 3 "${haproxy_path}"
+ab -r -s 300 -n 100000 -c 50 "${haproxy_path}"
   # -k reuse session
 
 echo "final wait"
