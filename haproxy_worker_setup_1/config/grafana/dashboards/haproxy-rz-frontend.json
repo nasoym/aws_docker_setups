@@ -1,0 +1,1297 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 1,
+  "hideControls": false,
+  "id": 44,
+  "links": [
+    {
+      "icon": "dashboard",
+      "includeVars": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "2017-10-05",
+      "type": "link",
+      "url": "/dashboard/db/haproxy-rz-frontend?from=1507206829894&to=1507217089571"
+    },
+    {
+      "icon": "dashboard",
+      "includeVars": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "2017-10-09",
+      "type": "link",
+      "url": "/dashboard/db/haproxy-rz-frontend?from=1507536939609&to=1507549624198"
+    },
+    {
+      "icon": "dashboard",
+      "includeVars": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "2017-10-16",
+      "type": "link",
+      "url": "/dashboard/db/haproxy-rz-frontend?from=1508149470170&to=1508184426110"
+    },
+    {
+      "icon": "dashboard",
+      "includeVars": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "2017-10-17",
+      "type": "link",
+      "url": "/dashboard/db/haproxy-rz-frontend?from=1508228006888&to=1508247480751"
+    }
+  ],
+  "refresh": false,
+  "rows": [
+    {
+      "collapse": false,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {
+            "Error Rate": "#BF1B00"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 0,
+          "id": 1,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(increase(haproxy_backend_http_responses_total{job=\"haproxy_exporter\",code=\"5xx\",backend=\"ep2_frontend\"}[$time]))",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "Error Rate",
+              "metric": "",
+              "refId": "B",
+              "step": 40
+            },
+            {
+              "expr": "sum(increase(haproxy_frontend_request_errors_total{job=\"haproxy_exporter\",frontend=\"https\"}[$time]))",
+              "format": "time_series",
+              "hide": true,
+              "intervalFactor": 2,
+              "legendFormat": "",
+              "metric": "haproxy_frontend_request_errors_total",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Error Responses 5xx (per $time)",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {
+            "sessions": "#E0752D"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 9,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "FE sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "BE sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "BE current sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "FE current sessions",
+              "yaxis": 2
+            }
+          ],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(increase(haproxy_backend_http_responses_total{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time])) by (code)",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "{{code}}",
+              "metric": "haproxy_back",
+              "refId": "A",
+              "step": 40
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Http Responses (per $time)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 4,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "BE queue time",
+              "yaxis": 1
+            },
+            {
+              "alias": "BE connect time",
+              "yaxis": 1
+            }
+          ],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(avg_over_time(haproxy_backend_http_total_time_average_seconds{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))\n",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "BE total time",
+              "refId": "B",
+              "step": 40
+            },
+            {
+              "expr": "sum(avg_over_time(haproxy_backend_http_connect_time_average_seconds{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "BE connect time",
+              "metric": "haproxy_backend_http_connect_time_average_seconds",
+              "refId": "A",
+              "step": 40
+            },
+            {
+              "expr": "sum(avg_over_time(haproxy_backend_http_response_time_average_seconds{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "BE response time",
+              "metric": "haproxy_backend_http_response_time_average_seconds",
+              "refId": "C",
+              "step": 40
+            },
+            {
+              "expr": "sum(avg_over_time(haproxy_backend_http_queue_time_average_seconds{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "BE queue time",
+              "metric": "haproxy_backend_http_queue_time_average_seconds",
+              "refId": "D",
+              "step": 40
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Avg Response Time (per $time)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 2,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {
+            "sessions": "#E0752D"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 10,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "FE sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "BE sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "BE current sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "FE current sessions",
+              "yaxis": 2
+            }
+          ],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(increase(haproxy_frontend_connections_total{job=\"haproxy_exporter\",frontend=\"https\"}[$time]))",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "FE connections",
+              "metric": "haproxy_frontend_connections_total",
+              "refId": "B",
+              "step": 40
+            },
+            {
+              "expr": "sum(increase(haproxy_backend_connections_total{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "BE connections",
+              "metric": "haproxy_backend_connections_total",
+              "refId": "D",
+              "step": 40
+            },
+            {
+              "expr": "sum(avg_over_time(haproxy_frontend_current_sessions{job=\"haproxy_exporter\",frontend=\"https\"}[$time]))",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "FE sessions",
+              "metric": "haproxy_frontend_current_sessions",
+              "refId": "C",
+              "step": 40
+            },
+            {
+              "expr": "sum(avg_over_time(haproxy_backend_current_sessions{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "BE sessions",
+              "metric": "haproxy_backend_current_sessions",
+              "refId": "F",
+              "step": 40
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Connections Sessions (per $time)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 11,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(increase(haproxy_frontend_http_requests_total{job=\"haproxy_exporter\",frontend=\"https\"}[$time]))",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "requests",
+              "metric": "haproxy_frontend_http_requests_total",
+              "refId": "A",
+              "step": 40
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "FE Requestes",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {
+            "sessions": "#E0752D"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 13,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "FE sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "BE sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "BE current sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "FE current sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "current_session_rate",
+              "yaxis": 1
+            },
+            {
+              "alias": "limit_session_rate",
+              "yaxis": 2
+            },
+            {
+              "alias": "max_session_rate",
+              "yaxis": 1
+            }
+          ],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(haproxy_frontend_limit_sessions{job=\"haproxy_exporter\",frontend=\"https\"})",
+              "format": "time_series",
+              "hide": true,
+              "intervalFactor": 2,
+              "legendFormat": "sessions_limit",
+              "metric": "haproxy_frontend_limit_sessions",
+              "refId": "A",
+              "step": 40
+            },
+            {
+              "expr": "sum(haproxy_frontend_current_sessions{job=\"haproxy_exporter\",frontend=\"https\"})",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "current_sessions",
+              "refId": "E",
+              "step": 40
+            },
+            {
+              "expr": "sum(haproxy_frontend_max_sessions{job=\"haproxy_exporter\",frontend=\"https\"})",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "max_sessions",
+              "metric": "haproxy_frontend_max_sessions",
+              "refId": "G",
+              "step": 40
+            },
+            {
+              "expr": "sum(haproxy_frontend_current_session_rate{job=\"haproxy_exporter\",frontend=\"https\"})",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "current_session_rate",
+              "metric": "haproxy_frontend_current_session_rate",
+              "refId": "H",
+              "step": 40
+            },
+            {
+              "expr": "sum(haproxy_frontend_max_session_rate{job=\"haproxy_exporter\",frontend=\"https\"})",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "max_session_rate",
+              "metric": "haproxy_frontend_max_session_rate",
+              "refId": "J",
+              "step": 40
+            },
+            {
+              "expr": "sum(haproxy_frontend_limit_session_rate{job=\"haproxy_exporter\",frontend=\"https\"})",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "limit_session_rate",
+              "metric": "haproxy_frontend_limit_session_rate",
+              "refId": "I",
+              "step": 40
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "FE Sessions",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {
+            "sessions": "#E0752D"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 14,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "FE sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "BE sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "BE current sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "FE current sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "current_session_rate",
+              "yaxis": 1
+            },
+            {
+              "alias": "limit_session_rate",
+              "yaxis": 2
+            },
+            {
+              "alias": "max_session_rate",
+              "yaxis": 1
+            }
+          ],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(haproxy_backend_current_session_rate{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "current_session_rate",
+              "metric": "haproxy_backend_current_session_rate",
+              "refId": "A",
+              "step": 40
+            },
+            {
+              "expr": "sum(haproxy_backend_current_sessions{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "current_sessions",
+              "metric": "haproxy_backend_current_sessions",
+              "refId": "B",
+              "step": 40
+            },
+            {
+              "expr": "sum(haproxy_backend_limit_sessions{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "limit_sessions",
+              "metric": "haproxy_backend_limit_sessions",
+              "refId": "C",
+              "step": 40
+            },
+            {
+              "expr": "sum(haproxy_backend_max_session_rate{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "max_sessions_rate",
+              "metric": "haproxy_backend_max_session_rate",
+              "refId": "D",
+              "step": 40
+            },
+            {
+              "expr": "sum(haproxy_backend_max_sessions{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "max_sessions",
+              "metric": "haproxy_backend_max_sessions",
+              "refId": "E",
+              "step": 40
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "BE Sessions",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {
+            "sessions": "#E0752D"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 15,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "FE sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "BE sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "BE current sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "FE current sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "current_session_rate",
+              "yaxis": 1
+            },
+            {
+              "alias": "limit_session_rate",
+              "yaxis": 2
+            },
+            {
+              "alias": "max_session_rate",
+              "yaxis": 1
+            }
+          ],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(increase(haproxy_backend_retry_warnings_total{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "retry_warnings",
+              "metric": "haproxy_backend_retry_warnings_total",
+              "refId": "A",
+              "step": 40
+            },
+            {
+              "expr": "sum(increase(haproxy_backend_response_errors_total{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "response_errors",
+              "metric": "haproxy_backend_response_errors_total",
+              "refId": "B",
+              "step": 40
+            },
+            {
+              "expr": "sum(increase(haproxy_backend_redispatch_warnings_total{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "redispatch_warnings",
+              "metric": "haproxy_backend_redispatch_warnings_total",
+              "refId": "C",
+              "step": 40
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "BE",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 16,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(haproxy_server_current_queue{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "current_queue",
+              "metric": "haproxy_server_current_queue",
+              "refId": "A",
+              "step": 40
+            },
+            {
+              "expr": "sum(haproxy_server_check_duration_milliseconds{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "check_duration_milliseconds",
+              "metric": "haproxy_server_check_duration_milliseconds",
+              "refId": "B",
+              "step": 40
+            },
+            {
+              "expr": "sum(increase(haproxy_server_check_failures_total{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "check_failures_total",
+              "metric": "haproxy_server_check_failures_total",
+              "refId": "C",
+              "step": 40
+            },
+            {
+              "expr": "sum(haproxy_server_max_queue{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "max_queue",
+              "metric": "haproxy_server_max_queue",
+              "refId": "D",
+              "step": 40
+            },
+            {
+              "expr": "sum(increase(haproxy_server_max_sessions{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "max_sessions",
+              "metric": "haproxy_server_max_sessions",
+              "refId": "E",
+              "step": 40
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Panel Title",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    }
+  ],
+  "schemaVersion": 14,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "5m",
+          "value": "5m"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "time",
+        "options": [
+          {
+            "selected": false,
+            "text": "1m",
+            "value": "1m"
+          },
+          {
+            "selected": false,
+            "text": "3m",
+            "value": "3m"
+          },
+          {
+            "selected": true,
+            "text": "5m",
+            "value": "5m"
+          },
+          {
+            "selected": false,
+            "text": "8m",
+            "value": "8m"
+          },
+          {
+            "selected": false,
+            "text": "10m",
+            "value": "10m"
+          },
+          {
+            "selected": false,
+            "text": "13m",
+            "value": "13m"
+          },
+          {
+            "selected": false,
+            "text": "15m",
+            "value": "15m"
+          }
+        ],
+        "query": "1m,3m,5m,8m,10m,13m,15m",
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "2017-10-16T10:24:30.170Z",
+    "to": "2017-10-16T20:07:06.110Z"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "HAProxy-RZ-Frontend",
+  "version": 57
+}
