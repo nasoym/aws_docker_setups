@@ -2,49 +2,13 @@
   "annotations": {
     "list": []
   },
+  "editMode": false,
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
   "hideControls": false,
-  "id": 44,
-  "links": [
-    {
-      "icon": "dashboard",
-      "includeVars": true,
-      "tags": [],
-      "targetBlank": false,
-      "title": "2017-10-05",
-      "type": "link",
-      "url": "/dashboard/db/haproxy-rz-frontend?from=1507206829894&to=1507217089571"
-    },
-    {
-      "icon": "dashboard",
-      "includeVars": true,
-      "tags": [],
-      "targetBlank": false,
-      "title": "2017-10-09",
-      "type": "link",
-      "url": "/dashboard/db/haproxy-rz-frontend?from=1507536939609&to=1507549624198"
-    },
-    {
-      "icon": "dashboard",
-      "includeVars": true,
-      "tags": [],
-      "targetBlank": false,
-      "title": "2017-10-16",
-      "type": "link",
-      "url": "/dashboard/db/haproxy-rz-frontend?from=1508149470170&to=1508184426110"
-    },
-    {
-      "icon": "dashboard",
-      "includeVars": true,
-      "tags": [],
-      "targetBlank": false,
-      "title": "2017-10-17",
-      "type": "link",
-      "url": "/dashboard/db/haproxy-rz-frontend?from=1508228006888&to=1508247480751"
-    }
-  ],
+  "id": 2,
+  "links": [],
   "refresh": false,
   "rows": [
     {
@@ -85,24 +49,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(increase(haproxy_backend_http_responses_total{job=\"haproxy_exporter\",code=\"5xx\",backend=\"ep2_frontend\"}[$time]))",
+              "expr": "sum(increase(haproxy_backend_http_responses_total{job=\"haproxy\",code=\"5xx\"}[$time]))",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "Error Rate",
               "metric": "",
               "refId": "B",
-              "step": 40
-            },
-            {
-              "expr": "sum(increase(haproxy_frontend_request_errors_total{job=\"haproxy_exporter\",frontend=\"https\"}[$time]))",
-              "format": "time_series",
-              "hide": true,
-              "intervalFactor": 2,
-              "legendFormat": "",
-              "metric": "haproxy_frontend_request_errors_total",
-              "refId": "A",
-              "step": 20
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -204,14 +158,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(increase(haproxy_backend_http_responses_total{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time])) by (code)",
+              "expr": "sum(increase(haproxy_backend_http_responses_total{job=\"haproxy\"}[$time])) by (code)",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "{{code}}",
               "metric": "haproxy_back",
               "refId": "A",
-              "step": 40
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -303,39 +257,39 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(avg_over_time(haproxy_backend_http_total_time_average_seconds{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))\n",
+              "expr": "sum(avg_over_time(haproxy_backend_http_total_time_average_seconds{job=\"haproxy\"}[$time]))\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "BE total time",
               "refId": "B",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(avg_over_time(haproxy_backend_http_connect_time_average_seconds{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "expr": "sum(avg_over_time(haproxy_backend_http_connect_time_average_seconds{job=\"haproxy\"}[$time]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "BE connect time",
               "metric": "haproxy_backend_http_connect_time_average_seconds",
               "refId": "A",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(avg_over_time(haproxy_backend_http_response_time_average_seconds{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "expr": "sum(avg_over_time(haproxy_backend_http_response_time_average_seconds{job=\"haproxy\"}[$time]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "BE response time",
               "metric": "haproxy_backend_http_response_time_average_seconds",
               "refId": "C",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(avg_over_time(haproxy_backend_http_queue_time_average_seconds{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "expr": "sum(avg_over_time(haproxy_backend_http_queue_time_average_seconds{job=\"haproxy\"}[$time]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "BE queue time",
               "metric": "haproxy_backend_http_queue_time_average_seconds",
               "refId": "D",
-              "step": 40
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -437,43 +391,43 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(increase(haproxy_frontend_connections_total{job=\"haproxy_exporter\",frontend=\"https\"}[$time]))",
+              "expr": "sum(increase(haproxy_frontend_connections_total{job=\"haproxy\"}[$time]))",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "FE connections",
               "metric": "haproxy_frontend_connections_total",
               "refId": "B",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(increase(haproxy_backend_connections_total{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "expr": "sum(increase(haproxy_backend_connections_total{job=\"haproxy\"}[$time]))",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "BE connections",
               "metric": "haproxy_backend_connections_total",
               "refId": "D",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(avg_over_time(haproxy_frontend_current_sessions{job=\"haproxy_exporter\",frontend=\"https\"}[$time]))",
+              "expr": "sum(avg_over_time(haproxy_frontend_current_sessions{job=\"haproxy\"}[$time]))",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "FE sessions",
               "metric": "haproxy_frontend_current_sessions",
               "refId": "C",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(avg_over_time(haproxy_backend_current_sessions{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "expr": "sum(avg_over_time(haproxy_backend_current_sessions{job=\"haproxy\"}[$time]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "BE sessions",
               "metric": "haproxy_backend_current_sessions",
               "refId": "F",
-              "step": 40
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -556,13 +510,13 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(increase(haproxy_frontend_http_requests_total{job=\"haproxy_exporter\",frontend=\"https\"}[$time]))",
+              "expr": "sum(increase(haproxy_frontend_http_requests_total{job=\"haproxy\"}[$time]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "requests",
               "metric": "haproxy_frontend_http_requests_total",
               "refId": "A",
-              "step": 40
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -676,7 +630,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(haproxy_frontend_limit_sessions{job=\"haproxy_exporter\",frontend=\"https\"})",
+              "expr": "sum(haproxy_frontend_limit_sessions{job=\"haproxy\"})",
               "format": "time_series",
               "hide": true,
               "intervalFactor": 2,
@@ -686,51 +640,51 @@
               "step": 40
             },
             {
-              "expr": "sum(haproxy_frontend_current_sessions{job=\"haproxy_exporter\",frontend=\"https\"})",
+              "expr": "sum(haproxy_frontend_current_sessions{job=\"haproxy\"})",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "current_sessions",
               "refId": "E",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(haproxy_frontend_max_sessions{job=\"haproxy_exporter\",frontend=\"https\"})",
+              "expr": "sum(haproxy_frontend_max_sessions{job=\"haproxy\"})",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "max_sessions",
               "metric": "haproxy_frontend_max_sessions",
               "refId": "G",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(haproxy_frontend_current_session_rate{job=\"haproxy_exporter\",frontend=\"https\"})",
+              "expr": "sum(haproxy_frontend_current_session_rate{job=\"haproxy\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "current_session_rate",
               "metric": "haproxy_frontend_current_session_rate",
               "refId": "H",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(haproxy_frontend_max_session_rate{job=\"haproxy_exporter\",frontend=\"https\"})",
+              "expr": "sum(haproxy_frontend_max_session_rate{job=\"haproxy\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "max_session_rate",
               "metric": "haproxy_frontend_max_session_rate",
               "refId": "J",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(haproxy_frontend_limit_session_rate{job=\"haproxy_exporter\",frontend=\"https\"})",
+              "expr": "sum(haproxy_frontend_limit_session_rate{job=\"haproxy\"})",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "limit_session_rate",
               "metric": "haproxy_frontend_limit_session_rate",
               "refId": "I",
-              "step": 40
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -844,49 +798,49 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(haproxy_backend_current_session_rate{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "expr": "sum(haproxy_backend_current_session_rate{job=\"haproxy\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "current_session_rate",
               "metric": "haproxy_backend_current_session_rate",
               "refId": "A",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(haproxy_backend_current_sessions{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "expr": "sum(haproxy_backend_current_sessions{job=\"haproxy\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "current_sessions",
               "metric": "haproxy_backend_current_sessions",
               "refId": "B",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(haproxy_backend_limit_sessions{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "expr": "sum(haproxy_backend_limit_sessions{job=\"haproxy\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "limit_sessions",
               "metric": "haproxy_backend_limit_sessions",
               "refId": "C",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(haproxy_backend_max_session_rate{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "expr": "sum(haproxy_backend_max_session_rate{job=\"haproxy\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "max_sessions_rate",
               "metric": "haproxy_backend_max_session_rate",
               "refId": "D",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(haproxy_backend_max_sessions{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "expr": "sum(haproxy_backend_max_sessions{job=\"haproxy\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "max_sessions",
               "metric": "haproxy_backend_max_sessions",
               "refId": "E",
-              "step": 40
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -1000,33 +954,33 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(increase(haproxy_backend_retry_warnings_total{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "expr": "sum(increase(haproxy_backend_retry_warnings_total{job=\"haproxy\"}[$time]))",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "retry_warnings",
               "metric": "haproxy_backend_retry_warnings_total",
               "refId": "A",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(increase(haproxy_backend_response_errors_total{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "expr": "sum(increase(haproxy_backend_response_errors_total{job=\"haproxy\"}[$time]))",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "response_errors",
               "metric": "haproxy_backend_response_errors_total",
               "refId": "B",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(increase(haproxy_backend_redispatch_warnings_total{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "expr": "sum(increase(haproxy_backend_redispatch_warnings_total{job=\"haproxy\"}[$time]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "redispatch_warnings",
               "metric": "haproxy_backend_redispatch_warnings_total",
               "refId": "C",
-              "step": 40
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -1108,54 +1062,54 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(haproxy_server_current_queue{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "expr": "sum(haproxy_server_current_queue{job=\"haproxy\"})",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "current_queue",
               "metric": "haproxy_server_current_queue",
               "refId": "A",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(haproxy_server_check_duration_milliseconds{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "expr": "sum(haproxy_server_check_duration_milliseconds{job=\"haproxy\"})",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "check_duration_milliseconds",
               "metric": "haproxy_server_check_duration_milliseconds",
               "refId": "B",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(increase(haproxy_server_check_failures_total{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "expr": "sum(increase(haproxy_server_check_failures_total{job=\"haproxy\"}[$time]))",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "check_failures_total",
               "metric": "haproxy_server_check_failures_total",
               "refId": "C",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(haproxy_server_max_queue{job=\"haproxy_exporter\",backend=\"ep2_frontend\"})",
+              "expr": "sum(haproxy_server_max_queue{job=\"haproxy\"})",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "max_queue",
               "metric": "haproxy_server_max_queue",
               "refId": "D",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(increase(haproxy_server_max_sessions{job=\"haproxy_exporter\",backend=\"ep2_frontend\"}[$time]))",
+              "expr": "sum(increase(haproxy_server_max_sessions{job=\"haproxy\"}[$time]))",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "max_sessions",
               "metric": "haproxy_server_max_sessions",
               "refId": "E",
-              "step": 40
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -1263,8 +1217,8 @@
     ]
   },
   "time": {
-    "from": "2017-10-16T10:24:30.170Z",
-    "to": "2017-10-16T20:07:06.110Z"
+    "from": "now-30m",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -1291,7 +1245,7 @@
       "30d"
     ]
   },
-  "timezone": "",
-  "title": "HAProxy-RZ-Frontend",
-  "version": 57
+  "timezone": "browser",
+  "title": "HAProxy",
+  "version": 3
 }
