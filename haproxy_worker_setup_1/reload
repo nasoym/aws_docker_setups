@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+: ${project_name:="$(basename $(pwd))"}
+
+if [[ -z "$@" ]]; then 
+  echo "instance[s] name must be provided" >&2
+  exit 1
+fi
+
+ec2 ssh $@ <<EOF
+  mkdir -p ${project_name}
+  mkdir -p ${project_name}/config
+  sudo chown -R ec2-user:ec2-user ${project_name}/config
+EOF
+
+ec2 scp $@ ${project_name} config
+ec2 scp $@ ${project_name} docker-compose.yml
+
+ec2 ssh $@ <<EOF
+  cd ${project_name}
+  export HOST_IP_ADDRESS="\$(hostname -i)"
+  docker-compose -p ${project_name} kill -s HUP haproxy
+  docker-compose -p ${project_name} stop benchmark
+  docker-compose -p ${project_name} rm -vf benchmark
+  docker-compose -p ${project_name} up benchmark
+
+EOF
+

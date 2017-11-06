@@ -28,7 +28,7 @@ sleep 10
 
 echo "run apache benchmark"
 # ab -r -s 300 -n 100000 -c 30 "${haproxy_path}"
-ab -r -s 300 -n 10000 -c 50 "${haproxy_path}"
+ab -r -s 300 -n 10000 -c 1000 "${haproxy_path}"
   # -k reuse session
 
 echo "final wait"
@@ -49,6 +49,18 @@ curl -s --user "admin:admin" \
 &timeout=10000\
 " \
   > /grafana_render/render_$(date +%FT%H_%M_%S).png
+curl -s --user "admin:admin" \
+  "${grafan_host}/render/dashboard/db/haproxy\
+?orgId=1\
+&from=now-${second_duration}s\
+&to=now\
+&kiosk\
+&tz=CET\
+&width=1200\
+&timeout=10000\
+&var-time=1m\
+" \
+  > /grafana_render/render_haproxy_$(date +%FT%H_%M_%S).png
 
 echo "finished"
 
