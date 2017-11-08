@@ -6,7 +6,7 @@
   "gnetId": null,
   "graphTooltip": 1,
   "hideControls": false,
-  "id": 1,
+  "id": 2,
   "links": [],
   "refresh": "10s",
   "rows": [
@@ -422,7 +422,7 @@
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 4,
+          "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -498,7 +498,7 @@
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 4,
+          "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -584,7 +584,7 @@
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 4,
+          "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -617,6 +617,83 @@
           "yaxes": [
             {
               "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 0,
+          "id": 11,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(requests) by (quantile)",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "{{quantile}}",
+              "metric": "requests",
+              "refId": "A",
+              "step": 4
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "request duration",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "s",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -690,5 +767,5 @@
   },
   "timezone": "browser",
   "title": "dashboard",
-  "version": 0
+  "version": 1
 }
