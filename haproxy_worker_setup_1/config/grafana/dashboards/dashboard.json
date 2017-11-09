@@ -12,387 +12,6 @@
   "rows": [
     {
       "collapse": false,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fill": 0,
-          "id": 1,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [
-            {
-              "alias": "frontend sessions",
-              "yaxis": 2
-            }
-          ],
-          "spaceLength": 10,
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "increase(haproxy_frontend_connections_total{frontend=\"frontend\"}[20s])",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "frontend con",
-              "refId": "B",
-              "step": 4
-            },
-            {
-              "expr": "increase(haproxy_backend_connections_total{backend=\"workers\"}[20s])",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "backend con",
-              "metric": "haproxy_backend_connections_total",
-              "refId": "A",
-              "step": 4
-            },
-            {
-              "expr": "haproxy_frontend_current_sessions{frontend=\"frontend\"}",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "frontend sessions",
-              "refId": "C",
-              "step": 4
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "haproxy connections/sessions",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fill": 0,
-          "id": 6,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "increase(haproxy_frontend_http_responses_total{frontend=\"frontend\"}[20s])",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "{{code}}",
-              "metric": "haproxy_frontend_http_responses_total",
-              "refId": "A",
-              "step": 4
-            },
-            {
-              "expr": "increase(haproxy_frontend_http_requests_total{frontend=\"frontend\"}[20s])",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "req",
-              "refId": "B",
-              "step": 4
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "haproxy_frontend request-responses",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": "0",
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fill": 0,
-          "id": 7,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [
-            {
-              "alias": "total",
-              "yaxis": 1
-            }
-          ],
-          "spaceLength": 10,
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "haproxy_backend_http_total_time_average_seconds{backend=\"workers\"}",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "total",
-              "metric": "haproxy_backend_http_total_time_average_seconds",
-              "refId": "A",
-              "step": 4
-            },
-            {
-              "expr": "haproxy_backend_http_response_time_average_seconds{backend=\"workers\"}",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "response",
-              "metric": "haproxy_backend_http_response_time_average_seconds",
-              "refId": "B",
-              "step": 4
-            },
-            {
-              "expr": "haproxy_backend_http_connect_time_average_seconds{backend=\"workers\"}",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "connect",
-              "metric": "haproxy_backend_http_connect_time_average_seconds",
-              "refId": "C",
-              "step": 4
-            },
-            {
-              "expr": "haproxy_backend_http_queue_time_average_seconds{backend=\"workers\"}",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "queue",
-              "metric": "haproxy_backend_http_queue_time_average_seconds",
-              "refId": "D",
-              "step": 4
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "haproxy_backend average time (seconds)",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "ms",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": "0",
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fill": 0,
-          "id": 3,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "haproxy_frontend_current_session_rate{frontend=\"frontend\"}",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "haproxy_frontend_current_session_rate",
-              "metric": "haproxy_frontend_current_session_rate",
-              "refId": "A",
-              "step": 4
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "haproxy_frontend_current_session_rate",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": "0",
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Dashboard Row",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
       "height": 250,
       "panels": [
         {
@@ -427,7 +46,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "increase(process_cpu_seconds_total{job=\"worker\"}[20s])",
+              "expr": "sum(increase(process_cpu_seconds_total{job=\"worker\",instance=~\"$instance\"}[$time])) by (instance)",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
@@ -438,7 +57,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "process_cpu_seconds",
+          "title": "process_cpu_seconds per $time",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -503,19 +122,87 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "increase(jvm_gc_collection_seconds_sum{gc=\"PS Scavenge\",job=\"worker\"}[20s])",
+              "expr": "increase(jvm_gc_collection_seconds_sum{gc=\"PS Scavenge\",job=\"worker\",instance=~\"$instance\"}[$time])",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "sum {{instance}}",
+              "legendFormat": "{{instance}}",
               "metric": "jvm_gc_c",
               "refId": "A",
               "step": 4
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "jvm_gc_collection_seconds_sum per $time",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
             },
             {
-              "expr": "increase(jvm_gc_collection_seconds_count{gc=\"PS Scavenge\",job=\"worker\"}[20s])",
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 16,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "increase(jvm_gc_collection_seconds_count{gc=\"PS Scavenge\",job=\"worker\",instance=~\"$instance\"}[$time])",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "count {{instance}}",
+              "legendFormat": "{{instance}}",
               "metric": "jvm_gc_c",
               "refId": "B",
               "step": 4
@@ -524,7 +211,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "jvm_gc_collection_seconds",
+          "title": "jvm_gc_collection_seconds_count per $time",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -589,7 +276,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "increase(jvm_threads_started_total{job=\"worker\"}[1m])",
+              "expr": "increase(jvm_threads_started_total{job=\"worker\",instance=~\"$instance\"}[$time])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
@@ -600,7 +287,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "jvm_threads",
+          "title": "jvm_threads_started per $time",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -632,7 +319,19 @@
               "show": true
             }
           ]
-        },
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
         {
           "aliasColors": {},
           "bars": false,
@@ -653,11 +352,20 @@
           "lines": true,
           "linewidth": 1,
           "links": [],
+          "minSpan": 2,
           "nullPointMode": "null",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
+          "repeat": "request_path",
+          "scopedVars": {
+            "request_path": {
+              "selected": false,
+              "text": "/memory_usage",
+              "value": "/memory_usage"
+            }
+          },
           "seriesOverrides": [],
           "spaceLength": 10,
           "span": 3,
@@ -665,11 +373,12 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(requests) by (quantile)",
+              "expr": "sum(requests{job=\"worker\",path=~\"$request_path\",instance=~\"$instance\"}) by (quantile)",
               "format": "time_series",
+              "hide": false,
               "intervalFactor": 2,
               "legendFormat": "{{quantile}}",
-              "metric": "requests",
+              "metric": "request",
               "refId": "A",
               "step": 4
             }
@@ -677,7 +386,274 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "request duration",
+          "title": "$request_path",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "s",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 0,
+          "id": 17,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "minSpan": 2,
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "repeat": null,
+          "repeatIteration": 1510264709747,
+          "repeatPanelId": 11,
+          "scopedVars": {
+            "request_path": {
+              "selected": false,
+              "text": "/sleep",
+              "value": "/sleep"
+            }
+          },
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(requests{job=\"worker\",path=~\"$request_path\",instance=~\"$instance\"}) by (quantile)",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "{{quantile}}",
+              "metric": "request",
+              "refId": "A",
+              "step": 4
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "$request_path",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "s",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 0,
+          "id": 18,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "minSpan": 2,
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "repeat": null,
+          "repeatIteration": 1510264709747,
+          "repeatPanelId": 11,
+          "scopedVars": {
+            "request_path": {
+              "selected": false,
+              "text": "/prometheus",
+              "value": "/prometheus"
+            }
+          },
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(requests{job=\"worker\",path=~\"$request_path\",instance=~\"$instance\"}) by (quantile)",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "{{quantile}}",
+              "metric": "request",
+              "refId": "A",
+              "step": 4
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "$request_path",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "s",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 0,
+          "id": 19,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "minSpan": 2,
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "repeat": null,
+          "repeatIteration": 1510264709747,
+          "repeatPanelId": 11,
+          "scopedVars": {
+            "request_path": {
+              "selected": false,
+              "text": "/",
+              "value": "/"
+            }
+          },
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(requests{job=\"worker\",path=~\"$request_path\",instance=~\"$instance\"}) by (quantile)",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "{{quantile}}",
+              "metric": "request",
+              "refId": "A",
+              "step": 4
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "$request_path",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -721,7 +697,82 @@
     {
       "collapse": false,
       "height": 250,
-      "panels": [],
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 15,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "up{job=\"worker\"}",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "refId": "A",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Panel Title",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
       "repeat": null,
       "repeatIteration": null,
       "repeatRowId": null,
@@ -734,7 +785,118 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "tags": [],
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": "prometheus",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "request_path",
+        "options": [],
+        "query": "label_values(requests{job=\"worker\"},path)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "tags": [],
+          "text": "worker1:8080",
+          "value": [
+            "worker1:8080"
+          ]
+        },
+        "datasource": "prometheus",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "instance",
+        "options": [],
+        "query": "label_values(up{job=\"worker\"},instance)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "tags": [],
+          "text": "1m",
+          "value": "1m"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "time",
+        "options": [
+          {
+            "selected": false,
+            "text": "30s",
+            "value": "30s"
+          },
+          {
+            "selected": true,
+            "text": "1m",
+            "value": "1m"
+          },
+          {
+            "selected": false,
+            "text": "2m",
+            "value": "2m"
+          },
+          {
+            "selected": false,
+            "text": "3m",
+            "value": "3m"
+          },
+          {
+            "selected": false,
+            "text": "4m",
+            "value": "4m"
+          },
+          {
+            "selected": false,
+            "text": "5m",
+            "value": "5m"
+          },
+          {
+            "selected": false,
+            "text": "8m",
+            "value": "8m"
+          },
+          {
+            "selected": false,
+            "text": "10m",
+            "value": "10m"
+          }
+        ],
+        "query": "30s,1m,2m,3m,4m,5m,8m,10m",
+        "type": "custom"
+      }
+    ]
   },
   "time": {
     "from": "now-15m",
@@ -767,5 +929,5 @@
   },
   "timezone": "browser",
   "title": "dashboard",
-  "version": 3
+  "version": 7
 }

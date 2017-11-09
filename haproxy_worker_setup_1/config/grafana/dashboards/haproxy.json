@@ -2,29 +2,28 @@
   "annotations": {
     "list": []
   },
-  "editMode": false,
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
   "hideControls": false,
   "id": 1,
   "links": [],
-  "refresh": false,
+  "refresh": "10s",
   "rows": [
     {
       "collapse": false,
-      "height": "250px",
+      "height": 250,
       "panels": [
         {
           "aliasColors": {
-            "Error Rate": "#BF1B00"
+            "sessions": "#E0752D"
           },
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": null,
-          "fill": 0,
-          "id": 1,
+          "fill": 1,
+          "id": 24,
           "legend": {
             "avg": false,
             "current": false,
@@ -35,36 +34,53 @@
             "values": false
           },
           "lines": true,
-          "linewidth": 2,
+          "linewidth": 1,
           "links": [],
-          "nullPointMode": "null",
+          "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [],
+          "seriesOverrides": [
+            {
+              "alias": "FE sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "BE sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "BE current sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "FE current sessions",
+              "yaxis": 2
+            }
+          ],
           "spaceLength": 10,
-          "span": 12,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(increase(haproxy_backend_http_responses_total{job=\"haproxy\",code=\"5xx\"}[$time]))",
+              "expr": "increase(haproxy_frontend_http_responses_total{job=\"haproxy\",frontend=~\"$frontend\"}[$time])",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
-              "legendFormat": "Error Rate",
-              "metric": "",
-              "refId": "B",
+              "legendFormat": "{{code}}",
+              "metric": "haproxy_back",
+              "refId": "A",
               "step": 2
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Error Responses 5xx (per $time)",
+          "title": "$frontend Http Responses (per $time)",
           "tooltip": {
-            "shared": false,
+            "shared": true,
             "sort": 0,
             "value_type": "individual"
           },
@@ -94,19 +110,7 @@
               "show": true
             }
           ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Dashboard Row",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": 250,
-      "panels": [
+        },
         {
           "aliasColors": {
             "sessions": "#E0752D"
@@ -153,12 +157,12 @@
             }
           ],
           "spaceLength": 10,
-          "span": 12,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(increase(haproxy_backend_http_responses_total{job=\"haproxy\"}[$time])) by (code)",
+              "expr": "sum(increase(haproxy_backend_http_responses_total{job=\"haproxy\",backend=~\"$backend\"}[$time])) by (code)",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
@@ -171,7 +175,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Http Responses (per $time)",
+          "title": "$backend Http Responses (per $time)",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -192,357 +196,6 @@
               "logBase": 1,
               "max": null,
               "min": "0",
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Dashboard Row",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": 250,
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fill": 1,
-          "id": 4,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "connected",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [
-            {
-              "alias": "BE queue time",
-              "yaxis": 1
-            },
-            {
-              "alias": "BE connect time",
-              "yaxis": 1
-            }
-          ],
-          "spaceLength": 10,
-          "span": 12,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum(avg_over_time(haproxy_backend_http_total_time_average_seconds{job=\"haproxy\"}[$time]))\n",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "BE total time",
-              "refId": "B",
-              "step": 2
-            },
-            {
-              "expr": "sum(avg_over_time(haproxy_backend_http_connect_time_average_seconds{job=\"haproxy\"}[$time]))",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "BE connect time",
-              "metric": "haproxy_backend_http_connect_time_average_seconds",
-              "refId": "A",
-              "step": 2
-            },
-            {
-              "expr": "sum(avg_over_time(haproxy_backend_http_response_time_average_seconds{job=\"haproxy\"}[$time]))",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "BE response time",
-              "metric": "haproxy_backend_http_response_time_average_seconds",
-              "refId": "C",
-              "step": 2
-            },
-            {
-              "expr": "sum(avg_over_time(haproxy_backend_http_queue_time_average_seconds{job=\"haproxy\"}[$time]))",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "BE queue time",
-              "metric": "haproxy_backend_http_queue_time_average_seconds",
-              "refId": "D",
-              "step": 2
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Avg Response Time (per $time)",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "ms",
-              "label": null,
-              "logBase": 2,
-              "max": null,
-              "min": "0",
-              "show": true
-            },
-            {
-              "format": "ms",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Dashboard Row",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": 250,
-      "panels": [
-        {
-          "aliasColors": {
-            "sessions": "#E0752D"
-          },
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fill": 1,
-          "id": 10,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "connected",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [
-            {
-              "alias": "FE sessions",
-              "yaxis": 2
-            },
-            {
-              "alias": "BE sessions",
-              "yaxis": 2
-            },
-            {
-              "alias": "BE current sessions",
-              "yaxis": 2
-            },
-            {
-              "alias": "FE current sessions",
-              "yaxis": 2
-            }
-          ],
-          "spaceLength": 10,
-          "span": 12,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum(increase(haproxy_frontend_connections_total{job=\"haproxy\"}[$time]))",
-              "format": "time_series",
-              "hide": false,
-              "intervalFactor": 2,
-              "legendFormat": "FE connections",
-              "metric": "haproxy_frontend_connections_total",
-              "refId": "B",
-              "step": 2
-            },
-            {
-              "expr": "sum(increase(haproxy_backend_connections_total{job=\"haproxy\"}[$time]))",
-              "format": "time_series",
-              "hide": false,
-              "intervalFactor": 2,
-              "legendFormat": "BE connections",
-              "metric": "haproxy_backend_connections_total",
-              "refId": "D",
-              "step": 2
-            },
-            {
-              "expr": "sum(avg_over_time(haproxy_frontend_current_sessions{job=\"haproxy\"}[$time]))",
-              "format": "time_series",
-              "hide": false,
-              "intervalFactor": 2,
-              "legendFormat": "FE sessions",
-              "metric": "haproxy_frontend_current_sessions",
-              "refId": "C",
-              "step": 2
-            },
-            {
-              "expr": "sum(avg_over_time(haproxy_backend_current_sessions{job=\"haproxy\"}[$time]))",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "BE sessions",
-              "metric": "haproxy_backend_current_sessions",
-              "refId": "F",
-              "step": 2
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Connections Sessions (per $time)",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": "0",
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Dashboard Row",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": 250,
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fill": 1,
-          "id": 11,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 12,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum(increase(haproxy_frontend_http_requests_total{job=\"haproxy\"}[$time]))",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "requests",
-              "metric": "haproxy_frontend_http_requests_total",
-              "refId": "A",
-              "step": 2
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "FE Requestes",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
               "show": true
             },
             {
@@ -625,22 +278,30 @@
             }
           ],
           "spaceLength": 10,
-          "span": 12,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(haproxy_frontend_limit_sessions{job=\"haproxy\"})",
+              "expr": "sum(increase(haproxy_frontend_connections_total{job=\"haproxy\",frontend=~\"$frontend\"}[$time]))",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "connections per $time",
+              "refId": "B",
+              "step": 2
+            },
+            {
+              "expr": "sum(haproxy_frontend_limit_sessions{job=\"haproxy\",frontend=~\"$frontend\"})",
               "format": "time_series",
               "hide": true,
               "intervalFactor": 2,
               "legendFormat": "sessions_limit",
               "metric": "haproxy_frontend_limit_sessions",
               "refId": "A",
-              "step": 40
+              "step": 2
             },
             {
-              "expr": "sum(haproxy_frontend_current_sessions{job=\"haproxy\"})",
+              "expr": "sum(haproxy_frontend_current_sessions{job=\"haproxy\",frontend=~\"$frontend\"})",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
@@ -649,7 +310,16 @@
               "step": 2
             },
             {
-              "expr": "sum(haproxy_frontend_max_sessions{job=\"haproxy\"})",
+              "expr": "sum(haproxy_frontend_current_session_rate{job=\"haproxy\",frontend=~\"$frontend\"})",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "current_session_rate",
+              "metric": "haproxy_frontend_current_session_rate",
+              "refId": "H",
+              "step": 2
+            },
+            {
+              "expr": "sum(haproxy_frontend_max_sessions{job=\"haproxy\",frontend=~\"$frontend\"})",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
@@ -659,16 +329,7 @@
               "step": 2
             },
             {
-              "expr": "sum(haproxy_frontend_current_session_rate{job=\"haproxy\"})",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "current_session_rate",
-              "metric": "haproxy_frontend_current_session_rate",
-              "refId": "H",
-              "step": 2
-            },
-            {
-              "expr": "sum(haproxy_frontend_max_session_rate{job=\"haproxy\"})",
+              "expr": "sum(haproxy_frontend_max_session_rate{job=\"haproxy\",frontend=~\"$frontend\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "max_session_rate",
@@ -677,7 +338,7 @@
               "step": 2
             },
             {
-              "expr": "sum(haproxy_frontend_limit_session_rate{job=\"haproxy\"})",
+              "expr": "sum(haproxy_frontend_limit_session_rate{job=\"haproxy\",frontend=~\"$frontend\"})",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
@@ -722,19 +383,7 @@
               "show": true
             }
           ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Dashboard Row",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": 250,
-      "panels": [
+        },
         {
           "aliasColors": {
             "sessions": "#E0752D"
@@ -793,21 +442,20 @@
             }
           ],
           "spaceLength": 10,
-          "span": 12,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(haproxy_backend_current_session_rate{job=\"haproxy\"})",
+              "expr": "increase(haproxy_backend_connections_total{job=\"haproxy\",backend=~\"$backend\"}[$time])",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "current_session_rate",
-              "metric": "haproxy_backend_current_session_rate",
-              "refId": "A",
+              "legendFormat": "connections per $time",
+              "refId": "F",
               "step": 2
             },
             {
-              "expr": "sum(haproxy_backend_current_sessions{job=\"haproxy\"})",
+              "expr": "sum(haproxy_backend_current_sessions{job=\"haproxy\",backend=~\"$backend\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "current_sessions",
@@ -816,16 +464,25 @@
               "step": 2
             },
             {
-              "expr": "sum(haproxy_backend_limit_sessions{job=\"haproxy\"})",
+              "expr": "sum(haproxy_backend_current_session_rate{job=\"haproxy\",backend=~\"$backend\"})",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "limit_sessions",
-              "metric": "haproxy_backend_limit_sessions",
-              "refId": "C",
+              "legendFormat": "current_session_rate",
+              "metric": "haproxy_backend_current_session_rate",
+              "refId": "A",
               "step": 2
             },
             {
-              "expr": "sum(haproxy_backend_max_session_rate{job=\"haproxy\"})",
+              "expr": "sum(haproxy_backend_max_sessions{job=\"haproxy\",backend=~\"$backend\"})",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "max_sessions",
+              "metric": "haproxy_backend_max_sessions",
+              "refId": "E",
+              "step": 2
+            },
+            {
+              "expr": "sum(haproxy_backend_max_session_rate{job=\"haproxy\",backend=~\"$backend\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "max_sessions_rate",
@@ -834,12 +491,12 @@
               "step": 2
             },
             {
-              "expr": "sum(haproxy_backend_max_sessions{job=\"haproxy\"})",
+              "expr": "sum(haproxy_backend_limit_sessions{job=\"haproxy\",backend=~\"$backend\"})",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "max_sessions",
-              "metric": "haproxy_backend_max_sessions",
-              "refId": "E",
+              "legendFormat": "limit_sessions",
+              "metric": "haproxy_backend_limit_sessions",
+              "refId": "C",
               "step": 2
             }
           ],
@@ -891,6 +548,101 @@
       "collapse": false,
       "height": 250,
       "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 11,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "increase(haproxy_frontend_http_requests_total{job=\"haproxy\",frontend=~\"$frontend\"}[$time])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "requests",
+              "metric": "haproxy_frontend_http_requests_total",
+              "refId": "A",
+              "step": 2
+            },
+            {
+              "expr": "increase(haproxy_frontend_request_errors_total{job=\"haproxy\",frontend=~\"$frontend\"}[$time])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "errors",
+              "metric": "haproxy_frontend_request_errors_total",
+              "refId": "B",
+              "step": 2
+            },
+            {
+              "expr": "increase(haproxy_frontend_requests_denied_total{job=\"haproxy\",frontend=~\"$frontend\"}[$time])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "denied",
+              "metric": "haproxy_frontend_requests_denied_total",
+              "refId": "C",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "FE Requestes",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
         {
           "aliasColors": {
             "sessions": "#E0752D"
@@ -949,7 +701,7 @@
             }
           ],
           "spaceLength": 10,
-          "span": 12,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -1038,7 +790,7 @@
           "dashes": false,
           "datasource": null,
           "fill": 1,
-          "id": 16,
+          "id": 20,
           "legend": {
             "avg": false,
             "current": false,
@@ -1050,6 +802,7 @@
           },
           "lines": true,
           "linewidth": 1,
+          "links": [],
           "nullPointMode": "null",
           "percentage": false,
           "pointradius": 5,
@@ -1057,65 +810,33 @@
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 12,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(haproxy_server_current_queue{job=\"haproxy\"})",
+              "expr": "haproxy_backend_current_queue{backend=~\"$backend\"}",
               "format": "time_series",
-              "hide": false,
               "intervalFactor": 2,
               "legendFormat": "current_queue",
-              "metric": "haproxy_server_current_queue",
+              "metric": "haproxy_backend_current_queue",
               "refId": "A",
               "step": 2
             },
             {
-              "expr": "sum(haproxy_server_check_duration_milliseconds{job=\"haproxy\"})",
+              "expr": "haproxy_backend_max_queue{backend=~\"$backend\"}",
               "format": "time_series",
-              "hide": false,
-              "intervalFactor": 2,
-              "legendFormat": "check_duration_milliseconds",
-              "metric": "haproxy_server_check_duration_milliseconds",
-              "refId": "B",
-              "step": 2
-            },
-            {
-              "expr": "sum(increase(haproxy_server_check_failures_total{job=\"haproxy\"}[$time]))",
-              "format": "time_series",
-              "hide": false,
-              "intervalFactor": 2,
-              "legendFormat": "check_failures_total",
-              "metric": "haproxy_server_check_failures_total",
-              "refId": "C",
-              "step": 2
-            },
-            {
-              "expr": "sum(haproxy_server_max_queue{job=\"haproxy\"})",
-              "format": "time_series",
-              "hide": false,
               "intervalFactor": 2,
               "legendFormat": "max_queue",
-              "metric": "haproxy_server_max_queue",
-              "refId": "D",
-              "step": 2
-            },
-            {
-              "expr": "sum(increase(haproxy_server_max_sessions{job=\"haproxy\"}[$time]))",
-              "format": "time_series",
-              "hide": false,
-              "intervalFactor": 2,
-              "legendFormat": "max_sessions",
-              "metric": "haproxy_server_max_sessions",
-              "refId": "E",
+              "metric": "haproxy_backend_max_queue",
+              "refId": "B",
               "step": 2
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Panel Title",
+          "title": "$backend Queue",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -1147,11 +868,487 @@
               "show": true
             }
           ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 4,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "BE queue time",
+              "yaxis": 1
+            },
+            {
+              "alias": "BE connect time",
+              "yaxis": 1
+            }
+          ],
+          "spaceLength": 10,
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(increase(haproxy_backend_http_total_time_average_seconds{job=\"haproxy\",backend=~\"$backend\"}[$time]))\n",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "total time",
+              "refId": "B",
+              "step": 2
+            },
+            {
+              "expr": "sum(increase(haproxy_backend_http_connect_time_average_seconds{job=\"haproxy\",backend=~\"$backend\"}[$time]))",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "connect time",
+              "metric": "haproxy_backend_http_connect_time_average_seconds",
+              "refId": "A",
+              "step": 2
+            },
+            {
+              "expr": "sum(increase(haproxy_backend_http_response_time_average_seconds{job=\"haproxy\",backend=~\"$backend\"}[$time]))",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "response time",
+              "metric": "haproxy_backend_http_response_time_average_seconds",
+              "refId": "C",
+              "step": 2
+            },
+            {
+              "expr": "sum(increase(haproxy_backend_http_queue_time_average_seconds{job=\"haproxy\",backend=~\"$backend\"}[$time]))",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "queue time",
+              "metric": "haproxy_backend_http_queue_time_average_seconds",
+              "refId": "D",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "$backend Avg Response Time (per $time)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
         }
       ],
       "repeat": null,
       "repeatIteration": null,
       "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 18,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "server": {
+              "selected": true,
+              "text": "worker2",
+              "value": "worker2"
+            }
+          },
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "increase(haproxy_server_connections_total{backend=~\"$backend\",server=~\"$server\"}[$time])",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "connection {{server}}",
+              "metric": "haproxy_server_connections_total",
+              "refId": "A",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "$server connection (per $time)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 19,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "server": {
+              "selected": true,
+              "text": "worker2",
+              "value": "worker2"
+            }
+          },
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(increase(haproxy_server_http_responses_total{backend=~\"$backend\",server=~\"$server\"}[$time])) by (code,server)",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "{{code}}",
+              "metric": "haproxy_server_http_responses_total",
+              "refId": "A",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "HTTP Responses $server (per $time)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": "server",
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 25,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "server": {
+              "selected": true,
+              "text": "worker1",
+              "value": "worker1"
+            }
+          },
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "increase(haproxy_server_connections_total{backend=~\"$backend\",server=~\"$server\"}[$time])",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "connection {{server}}",
+              "metric": "haproxy_server_connections_total",
+              "refId": "A",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "$server connection (per $time)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 26,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "server": {
+              "selected": true,
+              "text": "worker1",
+              "value": "worker1"
+            }
+          },
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(increase(haproxy_server_http_responses_total{backend=~\"$backend\",server=~\"$server\"}[$time])) by (code,server)",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "{{code}}",
+              "metric": "haproxy_server_http_responses_total",
+              "refId": "A",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "HTTP Responses $server (per $time)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": 1510263532742,
+      "repeatRowId": 5,
       "showTitle": false,
       "title": "Dashboard Row",
       "titleSize": "h6"
@@ -1166,8 +1363,8 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "text": "5m",
-          "value": "5m"
+          "text": "1m",
+          "value": "1m"
         },
         "hide": 0,
         "includeAll": false,
@@ -1176,9 +1373,14 @@
         "name": "time",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "1m",
             "value": "1m"
+          },
+          {
+            "selected": false,
+            "text": "2m",
+            "value": "2m"
           },
           {
             "selected": false,
@@ -1186,7 +1388,12 @@
             "value": "3m"
           },
           {
-            "selected": true,
+            "selected": false,
+            "text": "4m",
+            "value": "4m"
+          },
+          {
+            "selected": false,
             "text": "5m",
             "value": "5m"
           },
@@ -1211,13 +1418,85 @@
             "value": "15m"
           }
         ],
-        "query": "1m,3m,5m,8m,10m,13m,15m",
+        "query": "1m,2m,3m,4m,5m,8m,10m,13m,15m",
         "type": "custom"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "workers",
+          "value": "workers"
+        },
+        "datasource": "prometheus",
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "backend",
+        "options": [],
+        "query": "label_values(haproxy_backend_current_sessions{job=\"haproxy\"},backend)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "frontend",
+          "value": "frontend"
+        },
+        "datasource": "prometheus",
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "frontend",
+        "options": [],
+        "query": "label_values(haproxy_frontend_current_sessions{job=\"haproxy\"},frontend)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "worker2 + worker1",
+          "value": [
+            "worker2",
+            "worker1"
+          ]
+        },
+        "datasource": "prometheus",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "server",
+        "options": [],
+        "query": "label_values(haproxy_server_connections_total{backend=~\"$backend\"},server)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       }
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -1247,5 +1526,5 @@
   },
   "timezone": "browser",
   "title": "HAProxy",
-  "version": 1
+  "version": 23
 }
