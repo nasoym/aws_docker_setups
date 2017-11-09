@@ -40,12 +40,12 @@ services:
   cadvisor:
     image: google/cadvisor:v0.26.1
     privileged: true
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-      - /cgroup:/cgroup:ro
+    # volumes:
+    #   - /:/rootfs:ro
+    #   - /var/run:/var/run:rw
+    #   - /sys:/sys:ro
+    #   - /var/lib/docker/:/var/lib/docker:ro
+    #   - /cgroup:/cgroup:ro
 
   worker1:
     image: nasoym/spring-boot-dummy-service

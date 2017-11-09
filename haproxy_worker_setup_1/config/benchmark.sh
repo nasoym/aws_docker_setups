@@ -28,7 +28,7 @@ sleep 10
 
 echo "run apache benchmark"
 # ab -r -s 300 -n 100000 -c 30 "${haproxy_path}"
-ab -r -s 300 -n 10000 -c 1000 "${haproxy_path}"
+#ab -r -s 300 -n 10000 -c 1000 "${haproxy_path}"
   # -k reuse session
 
 echo "final wait"
