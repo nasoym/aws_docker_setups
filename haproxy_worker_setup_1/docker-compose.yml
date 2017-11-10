@@ -53,8 +53,19 @@ services:
   worker2:
     image: nasoym/spring-boot-dummy-service
 
+  # benchmark:
+  #   image: alpine
+  #   depends_on:
+  #     - haproxy
+  #   volumes:
+  #     - ./config/grafana_setup.sh:/grafana_setup.sh:ro
+  #     - ./config/benchmark.sh:/benchmark.sh:ro
+  #     - ./config/grafana:/grafana:ro
+  #     - ./config/grafana_render:/grafana_render
+  #   command: /bin/sh -c "apk --no-cache add bash apache2-utils curl jq; ./benchmark.sh"
+
   benchmark:
-    image: alpine
+    image: debian:jessie
     depends_on:
       - haproxy
     volumes:
@@ -62,5 +73,5 @@ services:
       - ./config/benchmark.sh:/benchmark.sh:ro
       - ./config/grafana:/grafana:ro
       - ./config/grafana_render:/grafana_render
-    command: /bin/sh -c "apk --no-cache add bash; ./benchmark.sh"
+    command: /bin/sh -c "apt-get update; apt-get install -y apache2-utils curl jq siege; ./benchmark.sh"
 
