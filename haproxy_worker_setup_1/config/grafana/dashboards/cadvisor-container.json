@@ -6,7 +6,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "hideControls": false,
-  "id": 3,
+  "id": 1,
   "links": [],
   "rows": [
     {
@@ -537,5 +537,5 @@
   },
   "timezone": "browser",
   "title": "cadvisor container",
-  "version": 5
+  "version": 0
 }

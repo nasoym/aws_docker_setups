@@ -6,7 +6,7 @@
   "gnetId": null,
   "graphTooltip": 1,
   "hideControls": false,
-  "id": 1,
+  "id": 2,
   "links": [],
   "refresh": "10s",
   "rows": [
@@ -1020,14 +1020,23 @@
           "renderer": "flot",
           "scopedVars": {
             "server": {
-              "selected": true,
-              "text": "worker2",
-              "value": "worker2"
+              "selected": false,
+              "text": "worker1",
+              "value": "worker1"
             }
           },
-          "seriesOverrides": [],
+          "seriesOverrides": [
+            {
+              "alias": "connection_error worker1",
+              "yaxis": 2
+            },
+            {
+              "alias": "check_failures worker1",
+              "yaxis": 2
+            }
+          ],
           "spaceLength": 10,
-          "span": 6,
+          "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -1039,6 +1048,14 @@
               "legendFormat": "connection {{server}}",
               "metric": "haproxy_server_connections_total",
               "refId": "A",
+              "step": 2
+            },
+            {
+              "expr": "increase(haproxy_server_retry_warnings_total{backend=~\"$backend\",server=~\"$server\"}[$time])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "retry warn {{server}}",
+              "refId": "B",
               "step": 2
             }
           ],
@@ -1065,7 +1082,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -1073,7 +1090,217 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 28,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "server": {
+              "selected": false,
+              "text": "worker1",
+              "value": "worker1"
+            }
+          },
+          "seriesOverrides": [
+            {
+              "alias": "connection_error worker1",
+              "yaxis": 1
+            },
+            {
+              "alias": "check_failures worker1",
+              "yaxis": 1
+            }
+          ],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "increase(haproxy_server_connection_errors_total{backend=~\"$backend\",server=~\"$server\"}[$time])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "connection_error {{server}}",
+              "metric": "haproxy_server_connection_errors_total",
+              "refId": "B",
+              "step": 2
+            },
+            {
+              "expr": "increase(haproxy_server_check_failures_total{backend=~\"$backend\",server=~\"$server\"}[$time])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "check_failures {{server}}",
+              "metric": "haproxy_server_check_failures_total",
+              "refId": "C",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "$server connection/check failures (per $time)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 27,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "server": {
+              "selected": false,
+              "text": "worker1",
+              "value": "worker1"
+            }
+          },
+          "seriesOverrides": [
+            {
+              "alias": "downtime worker1",
+              "yaxis": 2
+            },
+            {
+              "alias": "downtime worker1 per 1m",
+              "yaxis": 2
+            },
+            {
+              "alias": "downtime worker2 per 1m",
+              "yaxis": 2
+            }
+          ],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "haproxy_server_check_duration_milliseconds{backend=~\"$backend\",server=~\"$server\"}",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "check_duration {{server}}",
+              "metric": "haproxy_server_check_duration_milliseconds",
+              "refId": "A",
+              "step": 2
+            },
+            {
+              "expr": "increase(haproxy_server_downtime_seconds_total{backend=~\"$backend\",server=~\"$server\"}[$time])",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "downtime {{server}} per $time",
+              "metric": "haproxy_server_downtime_seconds_total",
+              "refId": "C",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Check / Downtime",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "s",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
               "show": true
             }
           ]
@@ -1105,14 +1332,14 @@
           "renderer": "flot",
           "scopedVars": {
             "server": {
-              "selected": true,
-              "text": "worker2",
-              "value": "worker2"
+              "selected": false,
+              "text": "worker1",
+              "value": "worker1"
             }
           },
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 6,
+          "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -1150,7 +1377,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -1158,7 +1385,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             }
           ]
@@ -1182,7 +1409,7 @@
           "dashes": false,
           "datasource": null,
           "fill": 1,
-          "id": 25,
+          "id": 30,
           "legend": {
             "avg": false,
             "current": false,
@@ -1202,14 +1429,23 @@
           "renderer": "flot",
           "scopedVars": {
             "server": {
-              "selected": true,
-              "text": "worker1",
-              "value": "worker1"
+              "selected": false,
+              "text": "worker2",
+              "value": "worker2"
             }
           },
-          "seriesOverrides": [],
+          "seriesOverrides": [
+            {
+              "alias": "connection_error worker1",
+              "yaxis": 2
+            },
+            {
+              "alias": "check_failures worker1",
+              "yaxis": 2
+            }
+          ],
           "spaceLength": 10,
-          "span": 6,
+          "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -1221,6 +1457,14 @@
               "legendFormat": "connection {{server}}",
               "metric": "haproxy_server_connections_total",
               "refId": "A",
+              "step": 2
+            },
+            {
+              "expr": "increase(haproxy_server_retry_warnings_total{backend=~\"$backend\",server=~\"$server\"}[$time])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "retry warn {{server}}",
+              "refId": "B",
               "step": 2
             }
           ],
@@ -1247,7 +1491,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -1255,7 +1499,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             }
           ]
@@ -1267,7 +1511,7 @@
           "dashes": false,
           "datasource": null,
           "fill": 1,
-          "id": 26,
+          "id": 31,
           "legend": {
             "avg": false,
             "current": false,
@@ -1287,14 +1531,224 @@
           "renderer": "flot",
           "scopedVars": {
             "server": {
-              "selected": true,
-              "text": "worker1",
-              "value": "worker1"
+              "selected": false,
+              "text": "worker2",
+              "value": "worker2"
+            }
+          },
+          "seriesOverrides": [
+            {
+              "alias": "connection_error worker1",
+              "yaxis": 1
+            },
+            {
+              "alias": "check_failures worker1",
+              "yaxis": 1
+            }
+          ],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "increase(haproxy_server_connection_errors_total{backend=~\"$backend\",server=~\"$server\"}[$time])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "connection_error {{server}}",
+              "metric": "haproxy_server_connection_errors_total",
+              "refId": "B",
+              "step": 2
+            },
+            {
+              "expr": "increase(haproxy_server_check_failures_total{backend=~\"$backend\",server=~\"$server\"}[$time])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "check_failures {{server}}",
+              "metric": "haproxy_server_check_failures_total",
+              "refId": "C",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "$server connection/check failures (per $time)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 32,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "server": {
+              "selected": false,
+              "text": "worker2",
+              "value": "worker2"
+            }
+          },
+          "seriesOverrides": [
+            {
+              "alias": "downtime worker1",
+              "yaxis": 2
+            },
+            {
+              "alias": "downtime worker1 per 1m",
+              "yaxis": 2
+            },
+            {
+              "alias": "downtime worker2 per 1m",
+              "yaxis": 2
+            }
+          ],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "haproxy_server_check_duration_milliseconds{backend=~\"$backend\",server=~\"$server\"}",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "check_duration {{server}}",
+              "metric": "haproxy_server_check_duration_milliseconds",
+              "refId": "A",
+              "step": 2
+            },
+            {
+              "expr": "increase(haproxy_server_downtime_seconds_total{backend=~\"$backend\",server=~\"$server\"}[$time])",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "downtime {{server}} per $time",
+              "metric": "haproxy_server_downtime_seconds_total",
+              "refId": "C",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Check / Downtime",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "s",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 33,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "server": {
+              "selected": false,
+              "text": "worker2",
+              "value": "worker2"
             }
           },
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 6,
+          "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -1332,7 +1786,177 @@
               "label": null,
               "logBase": 1,
               "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": 1510347635752,
+      "repeatRowId": 5,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 29,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "haproxy_server_redispatch_warnings_total",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "metric": "haproxy_server_redispatch_warnings_total",
+              "refId": "A",
+              "step": 2
+            },
+            {
+              "expr": "haproxy_server_response_errors_total",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "metric": "haproxy_server_response_errors_total",
+              "refId": "B",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Panel Title",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
               "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 34,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "haproxy_server_up",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "metric": "haproxy_server_up",
+              "refId": "A",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Panel Title",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
               "show": true
             },
             {
@@ -1347,8 +1971,8 @@
         }
       ],
       "repeat": null,
-      "repeatIteration": 1510263532742,
-      "repeatRowId": 5,
+      "repeatIteration": null,
+      "repeatRowId": null,
       "showTitle": false,
       "title": "Dashboard Row",
       "titleSize": "h6"
@@ -1470,10 +2094,10 @@
       {
         "allValue": null,
         "current": {
-          "text": "worker2 + worker1",
+          "tags": [],
+          "text": "All",
           "value": [
-            "worker2",
-            "worker1"
+            "$__all"
           ]
         },
         "datasource": "prometheus",
@@ -1526,5 +2150,5 @@
   },
   "timezone": "browser",
   "title": "HAProxy",
-  "version": 23
+  "version": 16
 }
