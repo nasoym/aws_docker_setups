@@ -64,8 +64,8 @@ services:
       - 7070:80
     volumes:
       # - ./config/apache2.conf:/etc/apache2/apache2.conf
-      # - ./config/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
-      # - ./config/jk.conf:/etc/apache2/mods-available/jk.conf
+      - ./config/default2:/etc/apache2/sites-enabled/000-default.conf
+      - ./config/jk2.conf:/etc/apache2/mods-available/jk.conf
       - ./config/worker.properties:/etc/libapache2-mod-jk/workers.properties
 
   # apache2:
