@@ -1,57 +1,90 @@
 version: '3'
 services:
 
-  prometheus:
-    image: prom/prometheus:v1.7.1
-    volumes:
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    ports:
-      - 9090:9090
-    command: -config.file=/etc/prometheus/prometheus.yml -storage.local.path=/prometheus -web.console.libraries=/etc/prometheus/console_libraries -web.console.templates=/etc/prometheus/consoles
+  # prometheus:
+  #   image: prom/prometheus:v1.7.1
+  #   volumes:
+  #     - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+  #   ports:
+  #     - 9090:9090
+  #   command: -config.file=/etc/prometheus/prometheus.yml -storage.local.path=/prometheus -web.console.libraries=/etc/prometheus/console_libraries -web.console.templates=/etc/prometheus/consoles
+  #
+  # haproxy:
+  #   image: haproxy
+  #   ports:
+  #     - 8080:80
+  #   depends_on:
+  #     - haproxy_logs
+  #   volumes:
+  #     - ./config/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg 
+  #
+  # haproxy_exporter:
+  #   image: prom/haproxy-exporter:v0.8.0 
+  #   depends_on:
+  #     - haproxy
+  #   command: --haproxy.scrape-uri="http://haproxy:81/stats?stats;csv"
+  #
+  # haproxy_logs:
+  #   image: factorish/syslog  
+  #   command: -t udp
+  #
+  # grafana:
+  #   image: grafana/grafana:4.3.2
+  #   ports: 
+  #     - 3000:3000
+  #   depends_on:
+  #     - prometheus
+  #   environment:
+  #     - GF_DASHBOARDS_JSON_ENABLED=true
 
-  haproxy:
-    image: haproxy
+  # cadvisor:
+  #   image: google/cadvisor:v0.26.1
+  #   privileged: true
+  #   volumes:
+  #     - /:/rootfs:ro
+  #     - /var/run:/var/run:rw
+  #     - /sys:/sys:ro
+  #     - /var/lib/docker/:/var/lib/docker:ro
+  #     - /cgroup:/cgroup:ro
+
+  apache:
+    image: datingcafe/apache-base
+    # image: wvogt/httpd-modjk
     ports:
       - 8080:80
-    depends_on:
-      - haproxy_logs
+    # volumes:
+      # - ./config/apache2.conf:/etc/apache2/apache2.conf
+      # - ./config/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+      # - ./config/jk.conf:/etc/apache2/mods-available/jk.conf
+      # - ./config/worker.properties:/etc/libapache2-mod-jk/workers.properties
+  apache2:
+    image: datingcafe/apache-base
+    # image: wvogt/httpd-modjk
+    ports:
+      - 7070:80
     volumes:
-      - ./config/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg 
+      # - ./config/apache2.conf:/etc/apache2/apache2.conf
+      # - ./config/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+      # - ./config/jk.conf:/etc/apache2/mods-available/jk.conf
+      - ./config/worker.properties:/etc/libapache2-mod-jk/workers.properties
 
-  haproxy_exporter:
-    image: prom/haproxy-exporter:v0.8.0 
-    depends_on:
-      - haproxy
-    command: --haproxy.scrape-uri="http://haproxy:81/stats?stats;csv"
-
-  haproxy_logs:
-    image: factorish/syslog  
-    command: -t udp
-
-  grafana:
-    image: grafana/grafana:4.3.2
-    ports: 
-      - 3000:3000
-    depends_on:
-      - prometheus
-    environment:
-      - GF_DASHBOARDS_JSON_ENABLED=true
-
-  cadvisor:
-    image: google/cadvisor:v0.26.1
-    privileged: true
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-      - /cgroup:/cgroup:ro
-
+  # apache2:
+  #   image: ubuntu:14.04
+  #   ports:
+  #     - 9090:80
+  #   volumes:
+  #     - ./config/apache2.conf:/etc/apache2/apache2.conf
+  #     - ./config/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+  #     - ./config/jk.conf:/etc/apache2/mods-available/jk.conf
+  #     - ./config/worker.properties:/etc/libapache2-mod-jk/workers.properties
+  #   command: /bin/bash -c "apt-get update && apt-get install -y --no-install-recommends apache2 libapache2-mod-jk; apachectl -k start -DFOREGROUND"
+  #
   worker1:
-    image: nasoym/spring-boot-dummy-service
+    image: nasoym/tomcat-dummy-service
 
-  worker2:
-    image: nasoym/spring-boot-dummy-service
+  # worker2:
+  #   image: nasoym/tomcat-dummy-service
+
 
   # benchmark:
   #   image: alpine
@@ -64,14 +97,14 @@ services:
   #     - ./config/grafana_render:/grafana_render
   #   command: /bin/sh -c "apk --no-cache add bash apache2-utils curl jq; ./benchmark.sh"
 
-  benchmark:
-    image: debian:jessie
-    depends_on:
-      - haproxy
-    volumes:
-      - ./config/grafana_setup.sh:/grafana_setup.sh:ro
-      - ./config/benchmark.sh:/benchmark.sh:ro
-      - ./config/grafana:/grafana:ro
-      - ./config/grafana_render:/grafana_render
-    command: /bin/sh -c "apt-get update; apt-get install -y apache2-utils curl jq siege; ./benchmark.sh"
+  # benchmark:
+  #   image: debian:jessie
+  #   depends_on:
+  #     - haproxy
+  #   volumes:
+  #     - ./config/grafana_setup.sh:/grafana_setup.sh:ro
+  #     - ./config/benchmark.sh:/benchmark.sh:ro
+  #     - ./config/grafana:/grafana:ro
+  #     - ./config/grafana_render:/grafana_render
+  #   command: /bin/sh -c "apt-get update; apt-get install -y apache2-utils curl jq siege; ./benchmark.sh"
 

@@ -21,9 +21,5 @@ ec2 scp $@ ${project_name} docker-compose.yml
 ec2 ssh $@ <<EOF
   cd ${project_name}
   export HOST_IP_ADDRESS="\$(hostname -i)"
-  docker-compose -p ${project_name} kill -s HUP haproxy
 EOF
-  # docker-compose -p ${project_name} stop benchmark
-  # docker-compose -p ${project_name} rm -vf benchmark
-  # docker-compose -p ${project_name} up benchmark
 
