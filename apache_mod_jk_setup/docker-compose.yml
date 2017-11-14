@@ -47,26 +47,26 @@ services:
   #     - /var/lib/docker/:/var/lib/docker:ro
   #     - /cgroup:/cgroup:ro
 
-  apache:
-    image: datingcafe/apache-base
-    # image: wvogt/httpd-modjk
-    ports:
-      - 8080:80
-    # volumes:
-      # - ./config/apache2.conf:/etc/apache2/apache2.conf
-      # - ./config/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
-      # - ./config/jk.conf:/etc/apache2/mods-available/jk.conf
-      # - ./config/worker.properties:/etc/libapache2-mod-jk/workers.properties
-  apache2:
-    image: datingcafe/apache-base
-    # image: wvogt/httpd-modjk
-    ports:
-      - 7070:80
-    volumes:
-      # - ./config/apache2.conf:/etc/apache2/apache2.conf
-      - ./config/default2:/etc/apache2/sites-enabled/000-default.conf
-      - ./config/jk2.conf:/etc/apache2/mods-available/jk.conf
-      - ./config/worker.properties:/etc/libapache2-mod-jk/workers.properties
+  # apache:
+  #   image: datingcafe/apache-base
+  #   # image: wvogt/httpd-modjk
+  #   ports:
+  #     - 8080:80
+  #   # volumes:
+  #     # - ./config/apache2.conf:/etc/apache2/apache2.conf
+  #     # - ./config/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+  #     # - ./config/jk.conf:/etc/apache2/mods-available/jk.conf
+  #     # - ./config/worker.properties:/etc/libapache2-mod-jk/workers.properties
+  # apache2:
+  #   image: datingcafe/apache-base
+  #   # image: wvogt/httpd-modjk
+  #   ports:
+  #     - 7070:80
+  #   volumes:
+  #     # - ./config/apache2.conf:/etc/apache2/apache2.conf
+  #     - ./config/default2:/etc/apache2/sites-enabled/000-default.conf
+  #     - ./config/jk2.conf:/etc/apache2/mods-available/jk.conf
+  #     - ./config/worker.properties:/etc/libapache2-mod-jk/workers.properties
 
   # apache2:
   #   image: ubuntu:14.04
@@ -79,7 +79,18 @@ services:
   #     - ./config/worker.properties:/etc/libapache2-mod-jk/workers.properties
   #   command: /bin/bash -c "apt-get update && apt-get install -y --no-install-recommends apache2 libapache2-mod-jk; apachectl -k start -DFOREGROUND"
   #
+
+  apache:
+    image: nasoym/httpd-mod_jk
+    ports:
+      - 8080:80
+    volumes:
+      - ./config/httpd-1/jk.conf:/etc/apache2/mods-available/jk.conf
+      - ./config/httpd-1/workers.properties:/etc/libapache2-mod-jk/workers.properties
+
   worker1:
+    ports:
+      - 9090:8080
     image: nasoym/tomcat-dummy-service
 
   # worker2:
