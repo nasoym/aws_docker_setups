@@ -6,7 +6,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "hideControls": false,
-  "id": 3,
+  "id": 1,
   "links": [],
   "refresh": "10s",
   "rows": [
@@ -221,7 +221,7 @@
               "legendFormat": "{{state}}",
               "metric": "apache_workers",
               "refId": "A",
-              "step": 10
+              "step": 20
             }
           ],
           "thresholds": [],
@@ -298,7 +298,7 @@
               "legendFormat": "{{state}}",
               "metric": "apache_scoreboard",
               "refId": "D",
-              "step": 10
+              "step": 20
             }
           ],
           "thresholds": [],
@@ -369,14 +369,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "apache_connections",
+              "expr": "max_over_time(apache_connections[$time])",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "{{state}}",
               "metric": "apache_connections",
               "refId": "C",
-              "step": 10
+              "step": 20
             }
           ],
           "thresholds": [],
@@ -524,5 +524,5 @@
   },
   "timezone": "browser",
   "title": "apache",
-  "version": 8
+  "version": 1
 }
