@@ -11,7 +11,7 @@ function ensure_service_available() {
 }
 
 : ${grafan_host:="http://grafana:3000"}
-: ${haproxy_host:="http://apache:80"}
+: ${haproxy_host:="http://haproxy:80"}
 : ${haproxy_path:="${haproxy_host}/hello/"}
 
 

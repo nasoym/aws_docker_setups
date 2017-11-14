@@ -18,6 +18,26 @@ services:
     environment:
       - GF_DASHBOARDS_JSON_ENABLED=true
 
+  haproxy:
+    image: haproxy
+    ports:
+      - 8080:80
+    depends_on:
+      - haproxy_logs
+      - apache
+    volumes:
+      - ./config/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg 
+
+  haproxy_exporter:
+    image: prom/haproxy-exporter:v0.8.0 
+    depends_on:
+      - haproxy
+    command: --haproxy.scrape-uri="http://haproxy:81/stats?stats;csv"
+
+  haproxy_logs:
+    image: factorish/syslog  
+    command: -t udp
+
   cadvisor:
     image: google/cadvisor:v0.26.1
     privileged: true
@@ -31,7 +51,7 @@ services:
   apache:
     image: nasoym/httpd-mod_jk
     ports:
-      - 8080:80
+      - 7070:80
     depends_on:
       - worker1
       - worker2
@@ -56,7 +76,7 @@ services:
   benchmark:
     image: debian:jessie
     depends_on:
-      - apache
+      - haproxy
     volumes:
       - ./config/grafana_setup.sh:/grafana_setup.sh:ro
       - ./config/benchmark.sh:/benchmark.sh:ro
