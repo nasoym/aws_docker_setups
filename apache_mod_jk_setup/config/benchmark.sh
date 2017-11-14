@@ -30,7 +30,8 @@ echo "run apache benchmark"
 #ab -r -s 300 -n 10000 -c 1000 "${haproxy_path}"
   # -k reuse session
 #siege -d60 -t60m -c20 "${haproxy_path}"
-siege  -t10s -c2 "${haproxy_path}"
+#siege -t10s -c2 "${haproxy_path}"
+siege -t15m -c500 -d60 "${haproxy_host}/hello/memory_usage?usage=5"
 
 echo "final wait"
 sleep 10
