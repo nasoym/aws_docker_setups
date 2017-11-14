@@ -38,7 +38,15 @@ services:
     volumes:
       - ./config/jk.conf:/etc/apache2/mods-available/jk.conf
       - ./config/workers.properties:/etc/libapache2-mod-jk/workers.properties
+      - ./config/httpd_extra.conf:/usr/local/apache2/conf/httpd_extra.conf
+    command: /bin/bash -c 'echo "" >> /usr/local/apache2/conf/httpd.conf; echo "Include /usr/local/apache2/conf/httpd_extra.conf" >> /usr/local/apache2/conf/httpd.conf; httpd-foreground'
 
+  apache_exporter:
+    image: ghellings/apache_exporter
+    depends_on:
+      - apache
+    command: -scrape_uri http://apache/server-status/?auto
+      
   worker1:
     image: nasoym/tomcat-dummy-service
 
