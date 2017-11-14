@@ -53,7 +53,7 @@
               "legendFormat": "accessses",
               "metric": "apache_accesses_total",
               "refId": "B",
-              "step": 10
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -131,7 +131,7 @@
               "legendFormat": "sent_kilobytes",
               "metric": "apache_sent_kilobytes_total",
               "refId": "A",
-              "step": 10
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -221,7 +221,7 @@
               "legendFormat": "{{state}}",
               "metric": "apache_workers",
               "refId": "A",
-              "step": 20
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -298,7 +298,7 @@
               "legendFormat": "{{state}}",
               "metric": "apache_scoreboard",
               "refId": "D",
-              "step": 20
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -376,7 +376,7 @@
               "legendFormat": "{{state}}",
               "metric": "apache_connections",
               "refId": "C",
-              "step": 20
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -494,7 +494,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
