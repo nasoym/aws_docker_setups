@@ -505,6 +505,125 @@
       "showTitle": false,
       "title": "Dashboard Row",
       "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 17,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "max(tomcat_thread_pool_current_thread_count{instance=~\"$instance\"}) by (name)",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "current_thread_count-{{name}}",
+              "metric": "tomcat_thread_pool_current_thread_count",
+              "refId": "A",
+              "step": 2
+            },
+            {
+              "expr": "max(tomcat_thread_pool_connection_count{instance=~\"$instance\"}) by (name)",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "connection_count-{{name}}",
+              "metric": "tomcat_thread_pool_connection_count",
+              "refId": "B",
+              "step": 2
+            },
+            {
+              "expr": "max(tomcat_thread_pool_current_threads_busy{instance=~\"$instance\"}) by (name)",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 2,
+              "legendFormat": "current_threads_busy-{{name}}",
+              "metric": "tomcat_thread_pool_current_threads_busy",
+              "refId": "C",
+              "step": 2
+            },
+            {
+              "expr": "tomcat_thread_pool_max_connections",
+              "format": "time_series",
+              "hide": true,
+              "intervalFactor": 2,
+              "metric": "tomcat_thread_pool_max_connections",
+              "refId": "E",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "tomcat_thread_pool $instance",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
     }
   ],
   "schemaVersion": 14,
@@ -540,7 +659,6 @@
       {
         "allValue": null,
         "current": {
-          "tags": [],
           "text": "All",
           "value": [
             "$__all"
