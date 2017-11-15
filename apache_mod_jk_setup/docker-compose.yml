@@ -69,18 +69,27 @@ services:
       
   worker1:
     image: nasoym/tomcat-dummy-service
+    restart: always
 
   worker2:
     image: nasoym/tomcat-dummy-service
+    restart: always
 
-  benchmark:
+  grafana_setup:
     image: debian:jessie
     depends_on:
       - haproxy
+      - grafana
     volumes:
       - ./config/grafana_setup.sh:/grafana_setup.sh:ro
-      - ./config/benchmark.sh:/benchmark.sh:ro
       - ./config/grafana:/grafana:ro
-      - ./config/grafana_render:/grafana_render
-    command: /bin/sh -c "apt-get update; apt-get install -y apache2-utils curl jq siege; ./benchmark.sh"
+    command: /bin/sh -c "apt-get update; apt-get install -y curl jq ; ./grafana_setup.sh"
 
+  # stress1:
+  #   image: debian:jessie
+  #   depends_on:
+  #     - grafana_setup
+  #   volumes:
+  #     - ./config/stress.sh:/stress.sh:ro
+  #   command: /bin/sh -c "apt-get update; apt-get install -y curl siege; ./stress.sh"
+        
