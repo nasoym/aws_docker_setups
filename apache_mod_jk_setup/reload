@@ -21,5 +21,6 @@ ec2 scp $@ ${project_name} docker-compose.yml
 ec2 ssh $@ <<EOF
   cd ${project_name}
   export HOST_IP_ADDRESS="\$(hostname -i)"
+  docker-compose -p ${project_name} up -d --remove-orphans
 EOF
 
