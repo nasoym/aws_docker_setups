@@ -1415,7 +1415,7 @@
             "current": false,
             "max": false,
             "min": false,
-            "show": false,
+            "show": true,
             "total": false,
             "values": false
           },
@@ -1433,17 +1433,19 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "haproxy_server_redispatch_warnings_total",
+              "expr": "increase(haproxy_server_redispatch_warnings_total[$time])",
               "format": "time_series",
               "intervalFactor": 2,
+              "legendFormat": "redispatch {{server}}",
               "metric": "haproxy_server_redispatch_warnings_total",
               "refId": "A",
               "step": 2
             },
             {
-              "expr": "haproxy_server_response_errors_total",
+              "expr": "increase(haproxy_server_response_errors_total[$time])",
               "format": "time_series",
               "intervalFactor": 2,
+              "legendFormat": "errors {{server}}",
               "metric": "haproxy_server_response_errors_total",
               "refId": "B",
               "step": 2
@@ -1777,5 +1779,5 @@
   },
   "timezone": "browser",
   "title": "HAProxy",
-  "version": 3
+  "version": 5
 }
