@@ -8,7 +8,7 @@
   "hideControls": false,
   "id": 3,
   "links": [],
-  "refresh": "10s",
+  "refresh": "5s",
   "rows": [
     {
       "collapse": false,
@@ -1048,7 +1048,7 @@
               "legendFormat": "connection {{server}}",
               "metric": "haproxy_server_connections_total",
               "refId": "A",
-              "step": 4
+              "step": 2
             },
             {
               "expr": "increase(haproxy_server_retry_warnings_total{backend=~\"$backend\",server=~\"$server\"}[$time])",
@@ -1056,7 +1056,7 @@
               "intervalFactor": 2,
               "legendFormat": "retry warn {{server}}",
               "refId": "B",
-              "step": 4
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -1149,7 +1149,7 @@
               "legendFormat": "connection_error {{server}}",
               "metric": "haproxy_server_connection_errors_total",
               "refId": "B",
-              "step": 4
+              "step": 2
             },
             {
               "expr": "increase(haproxy_server_check_failures_total{backend=~\"$backend\",server=~\"$server\"}[$time])",
@@ -1158,7 +1158,7 @@
               "legendFormat": "check_failures {{server}}",
               "metric": "haproxy_server_check_failures_total",
               "refId": "C",
-              "step": 4
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -1256,7 +1256,7 @@
               "legendFormat": "check_duration {{server}}",
               "metric": "haproxy_server_check_duration_milliseconds",
               "refId": "A",
-              "step": 4
+              "step": 2
             },
             {
               "expr": "increase(haproxy_server_downtime_seconds_total{backend=~\"$backend\",server=~\"$server\"}[$time])",
@@ -1266,7 +1266,7 @@
               "legendFormat": "downtime {{server}} per $time",
               "metric": "haproxy_server_downtime_seconds_total",
               "refId": "C",
-              "step": 4
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -1351,7 +1351,7 @@
               "legendFormat": "{{code}}",
               "metric": "haproxy_server_http_responses_total",
               "refId": "A",
-              "step": 4
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -1415,7 +1415,7 @@
             "current": false,
             "max": false,
             "min": false,
-            "show": true,
+            "show": false,
             "total": false,
             "values": false
           },
@@ -1504,6 +1504,7 @@
           },
           "lines": true,
           "linewidth": 1,
+          "links": [],
           "nullPointMode": "null",
           "percentage": false,
           "pointradius": 5,
@@ -1516,9 +1517,10 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "min_over_time(haproxy_server_up[$time])",
+              "expr": "haproxy_server_up",
               "format": "time_series",
               "intervalFactor": 2,
+              "legendFormat": "{{server}}",
               "metric": "haproxy_server_up",
               "refId": "A",
               "step": 2
@@ -1527,7 +1529,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Panel Title",
+          "title": "server up",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -1577,9 +1579,9 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
-          "text": "1m",
-          "value": "1m"
+          "tags": [],
+          "text": "10s",
+          "value": "10s"
         },
         "hide": 0,
         "includeAll": false,
@@ -1588,7 +1590,42 @@
         "name": "time",
         "options": [
           {
+            "selected": false,
+            "text": "1s",
+            "value": "1s"
+          },
+          {
+            "selected": false,
+            "text": "5s",
+            "value": "5s"
+          },
+          {
             "selected": true,
+            "text": "10s",
+            "value": "10s"
+          },
+          {
+            "selected": false,
+            "text": "20s",
+            "value": "20s"
+          },
+          {
+            "selected": false,
+            "text": "30s",
+            "value": "30s"
+          },
+          {
+            "selected": false,
+            "text": "40s",
+            "value": "40s"
+          },
+          {
+            "selected": false,
+            "text": "50s",
+            "value": "50s"
+          },
+          {
+            "selected": false,
             "text": "1m",
             "value": "1m"
           },
@@ -1633,7 +1670,7 @@
             "value": "15m"
           }
         ],
-        "query": "1m,2m,3m,4m,5m,8m,10m,13m,15m",
+        "query": "1s,5s,10s,20s,30s,40s,50s,1m,2m,3m,4m,5m,8m,10m,13m,15m",
         "type": "custom"
       },
       {
@@ -1710,7 +1747,7 @@
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -1740,5 +1777,5 @@
   },
   "timezone": "browser",
   "title": "HAProxy",
-  "version": 0
+  "version": 3
 }

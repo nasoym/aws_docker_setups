@@ -8,7 +8,7 @@
   "hideControls": false,
   "id": 4,
   "links": [],
-  "refresh": "10s",
+  "refresh": "5s",
   "rows": [
     {
       "collapse": false,
@@ -51,7 +51,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
               "refId": "A",
-              "step": 4
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -128,7 +128,7 @@
               "legendFormat": "{{instance}}",
               "metric": "jvm_gc_c",
               "refId": "A",
-              "step": 4
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -205,7 +205,7 @@
               "legendFormat": "{{instance}}",
               "metric": "jvm_gc_c",
               "refId": "B",
-              "step": 4
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -281,7 +281,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
               "refId": "A",
-              "step": 4
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -373,7 +373,7 @@
               "legendFormat": "{{quantile}}",
               "metric": "request",
               "refId": "A",
-              "step": 4
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -685,8 +685,8 @@
         "allValue": null,
         "current": {
           "tags": [],
-          "text": "1m",
-          "value": "1m"
+          "text": "10s",
+          "value": "10s"
         },
         "hide": 0,
         "includeAll": false,
@@ -696,11 +696,41 @@
         "options": [
           {
             "selected": false,
+            "text": "1s",
+            "value": "1s"
+          },
+          {
+            "selected": false,
+            "text": "5s",
+            "value": "5s"
+          },
+          {
+            "selected": true,
+            "text": "10s",
+            "value": "10s"
+          },
+          {
+            "selected": false,
+            "text": "20s",
+            "value": "20s"
+          },
+          {
+            "selected": false,
             "text": "30s",
             "value": "30s"
           },
           {
-            "selected": true,
+            "selected": false,
+            "text": "40s",
+            "value": "40s"
+          },
+          {
+            "selected": false,
+            "text": "50s",
+            "value": "50s"
+          },
+          {
+            "selected": false,
             "text": "1m",
             "value": "1m"
           },
@@ -735,13 +765,13 @@
             "value": "10m"
           }
         ],
-        "query": "30s,1m,2m,3m,4m,5m,8m,10m",
+        "query": "1s,5s,10s,20s,30s,40s,50s,1m,2m,3m,4m,5m,8m,10m",
         "type": "custom"
       }
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
