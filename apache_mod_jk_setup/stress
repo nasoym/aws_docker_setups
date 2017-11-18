@@ -19,9 +19,9 @@ ec2 scp $@ ${project_name} config
 ec2 scp $@ ${project_name} docker-compose.yml
 
 : ${delay:="3"}
-: ${concurrent:="300"}
+: ${concurrent:="30"}
 : ${initial_wait:="0"}
-: ${siege_path:="/hello/"}
+: ${siege_path:="/hello/cpu"}
 : ${name:="stress1"}
 
 ec2 ssh $@ <<EOF
