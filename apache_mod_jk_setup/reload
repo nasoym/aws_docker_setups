@@ -23,7 +23,12 @@ ec2 ssh $@ <<EOF
   export HOST_IP_ADDRESS="\$(hostname -i)"
   docker-compose -p ${project_name} up -d --remove-orphans
   docker-compose -p ${project_name} kill -s HUP haproxy
-  docker-compose -p ${project_name} exec -T apache /bin/bash -c '/usr/local/apache2/bin/apachectl graceful'
+  curl -s -i -XPOST "http://localhost:9090/-/reload"
+  docker-compose -p ${project_name} exec -T apache /bin/bash -c '/usr/local/apache2/bin/apachectl -k graceful'
 
 EOF
+  # docker-compose -p ${project_name} kill -s HUP apache
+  # docker-compose -p ${project_name} kill -s SIGUSR1 apache
+  # docker-compose -p ${project_name} exec -T apache /bin/bash -c '/usr/local/apache2/bin/apachectl -k restart'
+  # docker-compose -p ${project_name} exec -T apache /bin/bash -c '/usr/local/apache2/bin/apachectl -k graceful'
 
