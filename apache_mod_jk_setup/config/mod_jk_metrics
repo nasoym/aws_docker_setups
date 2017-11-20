@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -eufo pipefail
+
+: ${mod_jk_host:="apache:80"}
+: ${mod_jk_status_path:="jk-status"}
+curl -s "http://${mod_jk_host}/${mod_jk_status_path}?cmd=list&mime=prop" \
+  | grep -E '\b(busy|lbvalue|elected|sessions|connected)\b' \
+  | sed 's/^\([^.]*\)\.\([^.]*\)\.\([^.]*\)=\(.*\)$/mod_jk_\3{worker="\2"} \4/g'
+
