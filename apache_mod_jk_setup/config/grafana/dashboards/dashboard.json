@@ -6,7 +6,7 @@
   "gnetId": null,
   "graphTooltip": 1,
   "hideControls": false,
-  "id": 3,
+  "id": 4,
   "links": [],
   "refresh": "5s",
   "rows": [
@@ -801,5 +801,5 @@
   },
   "timezone": "browser",
   "title": "dashboard",
-  "version": 0
+  "version": 1
 }
