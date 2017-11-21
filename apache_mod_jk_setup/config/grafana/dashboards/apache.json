@@ -4,7 +4,7 @@
   },
   "editable": true,
   "gnetId": null,
-  "graphTooltip": 0,
+  "graphTooltip": 1,
   "hideControls": false,
   "id": 1,
   "links": [],
@@ -464,7 +464,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "mod_jk_busy",
+              "expr": "mod_jk_busy{worker!=\"worker_lb\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{worker}}",
@@ -573,7 +573,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -813,10 +813,10 @@
           "yaxes": [
             {
               "format": "short",
-              "label": null,
+              "label": "",
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -846,9 +846,9 @@
       {
         "allValue": null,
         "current": {
-          "tags": [],
-          "text": "10s",
-          "value": "10s"
+          "selected": true,
+          "text": "30s",
+          "value": "30s"
         },
         "hide": 0,
         "includeAll": false,
@@ -867,7 +867,7 @@
             "value": "5s"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "10s",
             "value": "10s"
           },
@@ -877,7 +877,7 @@
             "value": "20s"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "30s",
             "value": "30s"
           },
@@ -933,7 +933,7 @@
     ]
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-7m",
     "to": "now"
   },
   "timepicker": {
