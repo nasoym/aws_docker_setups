@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+for i in {1..3}; do 
+  docker run \
+    -d \
+    --restart unless-stopped \
+    --name stress${i} \
+    --network apachemodjksetup_default \
+    nasoym/http_stress_tester \
+    siege -c1000 -t24H -d5 http://haproxy/hello/get_wait 
+done
+

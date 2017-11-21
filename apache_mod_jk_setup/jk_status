@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+# curl -s "http://localhost:7070/jk-status?cmd=update&mime=prop&w=worker_lb&sw=worker1&vwa=0"
+# curl -s "http://localhost:7070/jk-status?cmd=update&mime=prop&w=worker_lb&sw=worker1&vwa=1"
+# curl -s "http://localhost:7070/jk-status?cmd=update&mime=prop&w=worker_lb&sw=worker1&vwf=100"
+# curl -s "http://localhost:7070/jk-status?cmd=update&mime=prop&w=worker_lb&sw=worker2&vwf=100"
+# curl -s "http://localhost:7070/jk-status?cmd=update&mime=prop&w=worker_lb&sw=worker3&vwf=100"
+# curl -s "http://localhost:7070/jk-status?cmd=update&mime=prop&w=worker_lb&sw=worker1&vwf=50"
+# curl -s "http://localhost:7070/jk-status?cmd=update&mime=prop&w=worker_lb&sw=worker1&vwf=10"
+
+: ${apache_host:="localhost:7070"}
+: ${modjk_path:="jk-status"}
+: ${lb_worker:="worker_lb"}
+
+if [[ "$#" -eq 0 ]];then
+  :
+
+elif [[ "$1" == "show" ]];then shift
+  curl -s "http://${apache_host}/${modjk_path}?cmd=show&mime=prop&w=${lb_worker}"
+
+elif [[ "$1" == "method_requests" ]];then shift
+  curl -s "http://${apache_host}/${modjk_path}?cmd=update&mime=prop&w=${lb_worker}&vlm=0"
+
+elif [[ "$1" == "method_traffic" ]];then shift
+  curl -s "http://${apache_host}/${modjk_path}?cmd=update&mime=prop&w=${lb_worker}&vlm=1"
+
+elif [[ "$1" == "method_busyness" ]];then shift
+  curl -s "http://${apache_host}/${modjk_path}?cmd=update&mime=prop&w=${lb_worker}&vlm=2"
+
+elif [[ "$1" == "method_session" ]];then shift
+  curl -s "http://${apache_host}/${modjk_path}?cmd=update&mime=prop&w=${lb_worker}&vlm=3"
+
+elif [[ "$1" == "method_next" ]];then shift
+  curl -s "http://${apache_host}/${modjk_path}?cmd=update&mime=prop&w=${lb_worker}&vlm=4"
+
+fi
+
