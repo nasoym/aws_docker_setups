@@ -37,16 +37,21 @@ services:
   haproxy_logs:
     image: factorish/syslog  
     command: -t udp
+    logging:
+      driver: json-file
+      options:
+        max-size: "50M"
+        max-file: "5"
 
-  # cadvisor:
-  #   image: google/cadvisor:v0.26.1
-  #   privileged: true
-  #   volumes:
-  #     - /:/rootfs:ro
-  #     - /var/run:/var/run:rw
-  #     - /sys:/sys:ro
-  #     - /var/lib/docker/:/var/lib/docker:ro
-  #     - /cgroup:/cgroup:ro
+  cadvisor:
+    image: google/cadvisor:v0.26.1
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /cgroup:/cgroup:ro
 
   apache:
     image: nasoym/httpd-mod_jk
@@ -61,6 +66,11 @@ services:
       - ./config/workers.properties:/etc/libapache2-mod-jk/workers.properties
       - ./config/httpd_extra.conf:/usr/local/apache2/conf/httpd_extra.conf
     command: /bin/bash -c 'echo "" >> /usr/local/apache2/conf/httpd.conf; echo "Include /usr/local/apache2/conf/httpd_extra.conf" >> /usr/local/apache2/conf/httpd.conf; httpd-foreground'
+    logging:
+      driver: json-file
+      options:
+        max-size: "50M"
+        max-file: "5"
 
   apache_exporter:
     image: ghellings/apache_exporter
@@ -84,14 +94,29 @@ services:
   worker1:
     image: nasoym/tomcat-dummy-service
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "50M"
+        max-file: "5"
 
   worker2:
     image: nasoym/tomcat-dummy-service
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "50M"
+        max-file: "5"
 
   worker3:
     image: nasoym/tomcat-dummy-service
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "50M"
+        max-file: "5"
 
   grafana_setup:
     image: debian:jessie
