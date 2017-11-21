@@ -38,15 +38,15 @@ services:
     image: factorish/syslog  
     command: -t udp
 
-  cadvisor:
-    image: google/cadvisor:v0.26.1
-    privileged: true
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-      - /cgroup:/cgroup:ro
+  # cadvisor:
+  #   image: google/cadvisor:v0.26.1
+  #   privileged: true
+  #   volumes:
+  #     - /:/rootfs:ro
+  #     - /var/run:/var/run:rw
+  #     - /sys:/sys:ro
+  #     - /var/lib/docker/:/var/lib/docker:ro
+  #     - /cgroup:/cgroup:ro
 
   apache:
     image: nasoym/httpd-mod_jk
@@ -68,22 +68,30 @@ services:
       - apache
     command: -scrape_uri http://apache/server-status/?auto
 
+  # apache_mod_jk_exporter:
+  #   image: nasoym/bss_docker
+  #   volumes:
+  #     - ./config/mod_jk_metrics:/bss/handlers/metrics
+
   apache_mod_jk_exporter:
-    image: nasoym/bss_docker
-    volumes:
-      - ./config/mod_jk_metrics:/bss/handlers/metrics
-      
+    image: hypoport/mod_jk_exporter
+    ports:
+      - 6060:80
+    environment:
+      - mod_jk_host=apache
+      - mod_jk_status_path=jk-status
+
   worker1:
     image: nasoym/tomcat-dummy-service
-    restart: always
+    restart: unless-stopped
 
   worker2:
     image: nasoym/tomcat-dummy-service
-    restart: always
+    restart: unless-stopped
 
   worker3:
     image: nasoym/tomcat-dummy-service
-    restart: always
+    restart: unless-stopped
 
   grafana_setup:
     image: debian:jessie
