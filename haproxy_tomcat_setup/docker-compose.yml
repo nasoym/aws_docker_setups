@@ -1,0 +1,98 @@
+version: '3'
+services:
+
+  prometheus:
+    image: prom/prometheus:v1.7.1
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - 9090:9090
+    command: -config.file=/etc/prometheus/prometheus.yml -storage.local.path=/prometheus -web.console.libraries=/etc/prometheus/console_libraries -web.console.templates=/etc/prometheus/consoles
+
+  grafana:
+    image: grafana/grafana:4.3.2
+    ports: 
+      - 3000:3000
+    depends_on:
+      - prometheus
+    environment:
+      - GF_DASHBOARDS_JSON_ENABLED=true
+
+  haproxy:
+    image: haproxy
+    ports:
+      - 8080:80
+      - 8081:81
+      - 8082:82
+    depends_on:
+      - haproxy_logs
+    volumes:
+      - ./config/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg 
+
+  haproxy_exporter:
+    image: prom/haproxy-exporter:v0.8.0 
+    depends_on:
+      - haproxy
+    command: --haproxy.scrape-uri="http://haproxy:81/stats?stats;csv"
+
+  haproxy_logs:
+    image: factorish/syslog  
+    command: -t udp
+    logging:
+      driver: json-file
+      options:
+        max-size: "50M"
+        max-file: "5"
+
+  cadvisor:
+    image: google/cadvisor:v0.26.1
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /cgroup:/cgroup:ro
+    logging:
+      driver: json-file
+      options:
+        max-size: "10M"
+        max-file: "5"
+
+  worker1:
+    image: nasoym/tomcat-dummy-service
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10M"
+        max-file: "5"
+
+  worker2:
+    image: nasoym/tomcat-dummy-service
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10M"
+        max-file: "5"
+
+  worker3:
+    image: nasoym/tomcat-dummy-service
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10M"
+        max-file: "5"
+
+  grafana_setup:
+    image: nasoym/http_stress_tester
+    depends_on:
+      - haproxy
+      - grafana
+    volumes:
+      - ./config/grafana_setup.sh:/grafana_setup.sh:ro
+      - ./config/grafana:/grafana:ro
+    command: /bin/sh -c "/grafana_setup.sh"
+

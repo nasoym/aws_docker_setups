@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+: ${worker:="worker1"}
+: ${docker_network:="$(basename $(pwd) | sed -e 's/_//'g -e 's/$/_default/g')"}
+: ${slow_max:="3000"}
+: ${slow_min:="2000"}
+
+if [[ "$#" -eq 0 ]];then
+  :
+
+elif [[ "$1" == "test" ]];then shift
+  docker run \
+    --rm \
+    --network ${docker_network} \
+    nasoym/http_stress_tester \
+    curl -i -s -X GET "http://${worker}:8080/hello/get_wait"
+
+elif [[ "$1" == "slow" ]];then shift
+  docker run \
+    --rm \
+    --network ${docker_network} \
+    nasoym/http_stress_tester \
+    curl -i -s -X PUT "http://${worker}:8080/hello/set_wait?max=${slow_max}&min=${slow_min}"
+
+elif [[ "$1" == "fast" ]];then shift
+
+  for i in {1..60}; do 
+    docker run \
+      --rm \
+      --network ${docker_network} \
+      nasoym/http_stress_tester \
+      curl -i -s -X PUT "http://${worker}:8080/hello/set_wait?max=500&min=10" \
+    && break || true
+    sleep 1
+  done
+
+fi
+

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+: ${docker_network:="$(basename $(pwd) | sed -e 's/_//'g -e 's/$/_default/g')"}
+
+for i in {1..3}; do 
+  docker run \
+    -d \
+    --restart unless-stopped \
+    --name stress${i} \
+    --network ${docker_network} \
+    nasoym/http_stress_tester \
+    siege -c1000 -t24H -d5 http://haproxy/hello/get_wait 
+done
+
