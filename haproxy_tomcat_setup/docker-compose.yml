@@ -86,6 +86,14 @@ services:
         max-size: "10M"
         max-file: "5"
 
+  alpine1:
+    image: alpine
+    tty: true
+
+  alpine2:
+    image: alpine
+    tty: true
+
   grafana_setup:
     image: nasoym/http_stress_tester
     depends_on:
