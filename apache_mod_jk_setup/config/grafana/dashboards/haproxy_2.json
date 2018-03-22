@@ -6,7 +6,7 @@
   "gnetId": null,
   "graphTooltip": 1,
   "hideControls": false,
-  "id": 1,
+  "id": 5,
   "links": [],
   "refresh": "5s",
   "rows": [
@@ -1299,5 +1299,5 @@
   },
   "timezone": "browser",
   "title": "HAProxy_2",
-  "version": 1
+  "version": 0
 }

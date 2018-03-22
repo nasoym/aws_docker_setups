@@ -6,21 +6,24 @@
   "gnetId": null,
   "graphTooltip": 0,
   "hideControls": false,
-  "id": 2,
+  "id": 6,
   "links": [],
+  "refresh": "5s",
   "rows": [
     {
       "collapse": false,
       "height": "250px",
       "panels": [
         {
-          "aliasColors": {},
+          "aliasColors": {
+            "sessions": "#E0752D"
+          },
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": null,
           "fill": 1,
-          "id": 1,
+          "id": 2,
           "legend": {
             "avg": false,
             "current": false,
@@ -33,40 +36,49 @@
           "lines": true,
           "linewidth": 1,
           "links": [],
-          "nullPointMode": "null",
+          "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [],
+          "seriesOverrides": [
+            {
+              "alias": "FE sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "BE sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "BE current sessions",
+              "yaxis": 2
+            },
+            {
+              "alias": "FE current sessions",
+              "yaxis": 2
+            }
+          ],
           "spaceLength": 10,
           "span": 12,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(increase(container_fs_reads_bytes_total{container_label_com_docker_compose_service=~\"$container\"}[$time])) by (device)",
+              "expr": "increase(haproxy_frontend_http_requests_total{job=\"haproxy\",frontend=\"frontend\"}[60s]) / 60",
               "format": "time_series",
+              "hide": false,
               "intervalFactor": 2,
-              "legendFormat": "container_fs_reads_bytes_total {{device}}",
-              "metric": "container_fs_reads_bytes_total",
+              "legendFormat": "{{code}}",
+              "metric": "haproxy_front",
               "refId": "A",
-              "step": 2
-            },
-            {
-              "expr": "sum(increase(container_fs_writes_bytes_total{container_label_com_docker_compose_service=~\"$container\"}[$time])) by (device)",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "container_fs_writes_bytes_total {{device}}",
-              "metric": "container_fs_writes_bytes_total",
-              "refId": "B",
               "step": 2
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "fs",
+          "title": "Haproxy requests per second",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -82,11 +94,11 @@
           },
           "yaxes": [
             {
-              "format": "bytes",
+              "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -117,8 +129,8 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": null,
-          "fill": 1,
-          "id": 2,
+          "fill": 0,
+          "id": 1,
           "legend": {
             "avg": false,
             "current": false,
@@ -131,6 +143,7 @@
           "lines": true,
           "linewidth": 1,
           "links": [],
+          "minSpan": 2,
           "nullPointMode": "null",
           "percentage": false,
           "pointradius": 5,
@@ -143,39 +156,20 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "increase(container_cpu_user_seconds_total{container_label_com_docker_compose_service=~\"$container\"}[$time])",
+              "expr": "increase(tomcat_request_processor_request_count{name=\"ajp-nio-8009\"}[1m]) / 60",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
-              "legendFormat": "container_cpu_user_seconds_total",
-              "metric": "container_cpu_user_seconds_total",
+              "legendFormat": "{{instance}}",
+              "metric": "tomcat_request_processor_request_count",
               "refId": "A",
-              "step": 2
-            },
-            {
-              "expr": "sum(increase(container_cpu_usage_seconds_total{container_label_com_docker_compose_service=~\"$container\"}[$time])) by (cpu)",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "container_cpu_usage_seconds_total {{cpu}}",
-              "metric": "container_cpu_usage_seconds_total",
-              "refId": "B",
-              "step": 2
-            },
-            {
-              "expr": "increase(container_cpu_system_seconds_total{container_label_com_docker_compose_service=~\"$container\"}[$time])",
-              "format": "time_series",
-              "hide": false,
-              "intervalFactor": 2,
-              "legendFormat": "container_cpu_system_seconds_total",
-              "metric": "container_cpu_system_seconds_total",
-              "refId": "C",
               "step": 2
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Cpu",
+          "title": "Tomcats requests per second",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -191,11 +185,11 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "none",
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -252,46 +246,19 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "container_memory_usage_bytes{container_label_com_docker_compose_service=~\"$container\"}",
+              "expr": "increase(mod_jk_elected[60s]) /60",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "container_memory_usage_bytes",
-              "metric": "container_memory_usage_bytes",
+              "legendFormat": "{{worker}}",
+              "metric": "mod_jk_elected",
               "refId": "A",
-              "step": 2
-            },
-            {
-              "expr": "container_memory_working_set_bytes{container_label_com_docker_compose_service=~\"$container\"}",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "container_memory_working_set_bytes",
-              "metric": "container_memory_working_set_bytes",
-              "refId": "B",
-              "step": 2
-            },
-            {
-              "expr": "container_memory_swap{container_label_com_docker_compose_service=~\"$container\"}",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "container_memory_swap",
-              "metric": "container_memory_swap",
-              "refId": "C",
-              "step": 2
-            },
-            {
-              "expr": "container_memory_cache{container_label_com_docker_compose_service=~\"$container\"}",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "container_memory_cache",
-              "metric": "container_memory_cache",
-              "refId": "D",
               "step": 2
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "memory",
+          "title": "apache elected",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -307,11 +274,11 @@
           },
           "yaxes": [
             {
-              "format": "bytes",
+              "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -368,20 +335,11 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "increase(container_network_receive_bytes_total{container_label_com_docker_compose_service=~\"$container\"}[$time])",
+              "expr": "mod_jk_lbvalue",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "container_network_receive_bytes_total",
-              "metric": "container_network_receive_bytes_total",
-              "refId": "B",
-              "step": 2
-            },
-            {
-              "expr": "increase(container_network_transmit_bytes_total{container_label_com_docker_compose_service=~\"$container\"}[$time])",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "container_network_transmit_bytes_total",
-              "metric": "container_network_transmit_bytes_total",
+              "legendFormat": "{{worker}}",
+              "metric": "mod_jk_lbvalue",
               "refId": "A",
               "step": 2
             }
@@ -389,7 +347,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Network",
+          "title": "apache lbvalue",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -435,76 +393,7 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": [
-      {
-        "allValue": null,
-        "current": {
-          "tags": [],
-          "text": "prometheus",
-          "value": [
-            "prometheus"
-          ]
-        },
-        "datasource": "prometheus",
-        "hide": 0,
-        "includeAll": true,
-        "label": null,
-        "multi": true,
-        "name": "container",
-        "options": [],
-        "query": "label_values(container_last_seen{container_label_com_docker_compose_service!=\"\"},container_label_com_docker_compose_service)",
-        "refresh": 1,
-        "regex": "",
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {
-          "tags": [],
-          "text": "3m",
-          "value": "3m"
-        },
-        "hide": 0,
-        "includeAll": false,
-        "label": null,
-        "multi": false,
-        "name": "time",
-        "options": [
-          {
-            "selected": false,
-            "text": "1m",
-            "value": "1m"
-          },
-          {
-            "selected": false,
-            "text": "2m",
-            "value": "2m"
-          },
-          {
-            "selected": true,
-            "text": "3m",
-            "value": "3m"
-          },
-          {
-            "selected": false,
-            "text": "4m",
-            "value": "4m"
-          },
-          {
-            "selected": false,
-            "text": "5m",
-            "value": "5m"
-          }
-        ],
-        "query": "1m,2m,3m,4m,5m",
-        "type": "custom"
-      }
-    ]
+    "list": []
   },
   "time": {
     "from": "now-15m",
@@ -536,6 +425,6 @@
     ]
   },
   "timezone": "browser",
-  "title": "cadvisor container",
-  "version": 0
+  "title": "lb weight",
+  "version": 4
 }
