@@ -12,7 +12,7 @@
   "rows": [
     {
       "collapse": false,
-      "height": "250px",
+      "height": "200px",
       "panels": [
         {
           "aliasColors": {
@@ -121,7 +121,7 @@
     },
     {
       "collapse": false,
-      "height": 250,
+      "height": "200",
       "panels": [
         {
           "aliasColors": {},
@@ -212,7 +212,7 @@
     },
     {
       "collapse": false,
-      "height": 250,
+      "height": "200",
       "panels": [
         {
           "aliasColors": {},
@@ -301,7 +301,7 @@
     },
     {
       "collapse": false,
-      "height": 250,
+      "height": "200",
       "panels": [
         {
           "aliasColors": {},
@@ -396,11 +396,12 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
+      "1s",
       "5s",
       "10s",
       "30s",
@@ -426,5 +427,5 @@
   },
   "timezone": "browser",
   "title": "lb weight",
-  "version": 4
+  "version": 6
 }
