@@ -8,7 +8,7 @@
   "hideControls": false,
   "id": 6,
   "links": [],
-  "refresh": "5s",
+  "refresh": "1s",
   "rows": [
     {
       "collapse": false,
@@ -141,7 +141,7 @@
             "values": false
           },
           "lines": true,
-          "linewidth": 1,
+          "linewidth": 2,
           "links": [],
           "minSpan": 2,
           "nullPointMode": "null",
@@ -220,7 +220,7 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": null,
-          "fill": 1,
+          "fill": 0,
           "id": 3,
           "legend": {
             "avg": false,
@@ -232,7 +232,7 @@
             "values": false
           },
           "lines": true,
-          "linewidth": 1,
+          "linewidth": 2,
           "links": [],
           "nullPointMode": "null",
           "percentage": false,
@@ -309,7 +309,7 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": null,
-          "fill": 1,
+          "fill": 0,
           "id": 4,
           "legend": {
             "avg": false,
@@ -321,7 +321,7 @@
             "values": false
           },
           "lines": true,
-          "linewidth": 1,
+          "linewidth": 2,
           "links": [],
           "nullPointMode": "null",
           "percentage": false,
@@ -427,5 +427,5 @@
   },
   "timezone": "browser",
   "title": "lb weight",
-  "version": 6
+  "version": 8
 }
